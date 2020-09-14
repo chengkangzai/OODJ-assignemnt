@@ -15,7 +15,8 @@ public class OODJ {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        User u = new User();
+        System.out.println(u.isAuthenticated());
     }
     
 }
