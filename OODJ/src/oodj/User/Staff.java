@@ -28,7 +28,7 @@ public class Staff extends User {
 
     @Override
     public boolean isAdmin() {
-        return true;
+        return false;
     }
 
     @Override
