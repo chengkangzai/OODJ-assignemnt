@@ -5,6 +5,8 @@
  */
 package oodj;
 
+import oodj.User.User;
+
 /**
  *
  * @author CCK

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package oodj;
+package oodj.User;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,6 +26,7 @@ public class User {
     private String email;
     // 'admin' / 'delivery'
     private String role;
+    private String password;
     private int id;
     private boolean authenticated;
 
@@ -40,6 +41,30 @@ public class User {
         this.authenticated = false;
         this.name = name;
         this.email = email;
+    }
+
+    public User(String name, String email, String role, String password, int id) {
+        this.name = name;
+        this.email = email;
+        this.role = role;
+        this.password = getHash(password.getBytes());
+        this.id = id;
+        this.authenticated = this.login();
+    }
+
+    public User(int id) {
+        List<String> fromFile = getFromFile();
+        for (int i = 1; i < fromFile.size(); i++) {
+            String split[] = fromFile.get(i).split(",");
+            if (Integer.valueOf(split[0]) == id) {
+                this.id = Integer.valueOf(split[0]);
+                this.name = split[1];
+                this.password = split[2];
+                this.email = split[3];
+                this.role = split[4];
+            }
+        }
+        this.authenticated = this.login();
     }
 
     public String getName() {
@@ -58,16 +83,22 @@ public class User {
         this.email = email;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     /**
      *
-     * @param email
-     * @param password
      * @return
      */
-    public boolean login(String email, String password) {
-        if (isValidEmail(email) && isValidString(password)) {
+    public boolean login() {
+        if (isValidEmail(this.email) && isValidString(this.password)) {
             List<String> dbLine = getFromFile();
-            String hashedPassword = getHash(password.getBytes(), "SHA-256");
+            String hashedPassword = getHash(this.password.getBytes());
 
             for (int i = 0; i < dbLine.size(); i++) {
                 String split[] = dbLine.get(i).split(",");
@@ -76,7 +107,7 @@ public class User {
                     this.id = Integer.valueOf(split[0]);
                     this.name = split[1];
                     this.email = split[3];
-                    this.role = split[3];
+                    this.role = split[4];
                     this.authenticated = true;
                     return true;
                 }
@@ -88,66 +119,59 @@ public class User {
 
     /**
      *
-     * Register the user by object and password as string
-     * 
-     * @param user
-     * @param password
+     * Register the user by object
+     *
      * @return
      */
-    public boolean register(User user, String password) {
-        if (isValidEmail(user.email) && isValidString(user.name)) {
-
-            String hashedPassword = getHash(password.getBytes(), "SHA-256");
-            int ID = getFromFile().size();
+    public boolean register() {
+        if (isValidEmail(this.email) && isValidString(this.name)) {
             List<String> dbLine = getFromFile();
-            String userRole = (user.isAdmin()) ? "admin" : "delivery";
+            for (int i = 1; i < dbLine.size(); i++) {
+                String split[] = dbLine.get(i).split(",");
+                if (split[3].equals(email)) {
+                    //Email exits in database, hence cannot register this guy
+                    return false;
+                }
+            }
 
-            dbLine.add(ID + "," + user.name + "," + hashedPassword + "," + user.email + "," + userRole + "\n");
+            String hashedPassword = getHash(this.password.getBytes());
+            int ID = getFromFile().size();
+            String userRole = (this.isAdmin()) ? "admin" : "delivery";
+            dbLine.add(ID + "," + this.name + "," + hashedPassword + "," + this.email + "," + userRole + "\n");
 
             return reWriteDB(listToString(dbLine));
         }
+        //Invalid email or Name
         return false;
     }
-    
-    public boolean update(User user) {
+
+    public boolean update() {
         //TODO
+        //validation? 
         List<String> fromFile = getFromFile();
-        String[] data = new String[fromFile.size()];
 
-        System.out.println(user.id);
-        
-//        int idd = Integer.valueOf(userid);
-//        String line = data[idd];
-//        String[] splited = line.split("\\,");
-//        String stock = splited[3];
-//        int newStock = (Integer.valueOf(stock) - 1);
-//
-//        data[idd] = splited[0] + "," + splited[1] + "," + splited[2] + "," + String.valueOf(newStock) + "," + splited[4]
-//                + "," + splited[5];
-//
-//        String info = "";
-//        for (int i = 0; i < data.length; i++) {
-//            info += data[i] + "\n";
-//        }
-        
-        
-        
-        return false;
+        int ID = getFromFile().size();
+        String hashedPassword = getHash(this.password.getBytes());
+        String userRole = (this.isAdmin()) ? "admin" : "delivery";
+
+        String line = ID + "," + this.name + "," + hashedPassword + "," + this.email + "," + userRole + "\n";
+        fromFile.set(this.id, line);
+
+        return reWriteDB(listToString(fromFile));
+
     }
-
 
     /**
      * Get the hashed value of the input Bytes
      * https://www.tutorialspoint.com/java_cryptography/java_cryptography_message_digest.htm
      *
      * @param inputBytes
-     * @param algorithm
      * @return
      */
-    public static String getHash(byte[] inputBytes, String algorithm) {
+    public static String getHash(byte[] inputBytes) {
         String hashValue = "";
         try {
-            MessageDigest md = MessageDigest.getInstance(algorithm);
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(inputBytes);
             byte[] digestedByte = md.digest();
             hashValue = DatatypeConverter.printHexBinary(digestedByte).toLowerCase();
@@ -171,7 +195,7 @@ public class User {
     /**
      *
      * Validate the email is valid or not
-     * 
+     *
      * @param String email
      * @return true if the input string is not empty and is a email
      */
@@ -185,7 +209,7 @@ public class User {
     }
 
     /**
-     * 
+     *
      * Validate if the user is authenticate or not
      *
      * @return true if the user is authenticated
@@ -197,7 +221,7 @@ public class User {
     /**
      *
      * Validated is the user is admin or not
-     * 
+     *
      * @return true if the user is admin
      */
     public boolean isAdmin() {
@@ -205,7 +229,7 @@ public class User {
     }
 
     /**
-     * 
+     *
      * Get all the line from the text file
      *
      * @return Raw data from the text file
@@ -241,7 +265,7 @@ public class User {
     /**
      *
      * Rewrite the text file, make sure the line is properly formatted
-     * 
+     *
      * @param data
      * @return
      */
@@ -255,14 +279,4 @@ public class User {
         }
         return success;
     }
-
-    public static void main(String[] args) {
-        User u = new User();
-        System.out.println(u.login("email@email.com", "P@$$word"));
-
-//        u.setEmail("email@email.com");
-//        u.setName("Ian");
-//        u.register(u, "P@$$word");
-    }
-
 }
