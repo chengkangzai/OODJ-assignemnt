@@ -21,7 +21,7 @@ import javax.xml.bind.DatatypeConverter;
  * @author CCK
  */
 public class User {
-
+    
     private String name;
     private String email;
     // 'admin' / 'delivery'
@@ -29,20 +29,20 @@ public class User {
     private String password;
     private int id;
     private boolean authenticated;
-
+    
     private final static String FILENAME = "user.txt";
     private final static Path PATH = Paths.get(FILENAME);
-
+    
     public User() {
         this.authenticated = false;
     }
-
+    
     public User(String name, String email) {
         this.authenticated = false;
         this.name = name;
         this.email = email;
     }
-
+    
     public User(String name, String email, String role, String password, int id) {
         this.name = name;
         this.email = email;
@@ -51,7 +51,7 @@ public class User {
         this.id = id;
         this.authenticated = this.login();
     }
-
+    
     public User(int id) {
         List<String> fromFile = getFromFile();
         for (int i = 1; i < fromFile.size(); i++) {
@@ -66,27 +66,27 @@ public class User {
         }
         this.authenticated = this.login();
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
-
+    
     public String getEmail() {
         return email;
     }
-
+    
     public void setEmail(String email) {
         this.email = email;
     }
-
+    
     public String getRole() {
         return role;
     }
-
+    
     public void setRole(String role) {
         this.role = role;
     }
@@ -99,10 +99,10 @@ public class User {
         if (isValidEmail(this.email) && isValidString(this.password)) {
             List<String> dbLine = getFromFile();
             String hashedPassword = getHash(this.password.getBytes());
-
+            
             for (int i = 0; i < dbLine.size(); i++) {
                 String split[] = dbLine.get(i).split(",");
-
+                
                 if (split[3].equals(email) && split[2].equals(hashedPassword)) {
                     this.id = Integer.valueOf(split[0]);
                     this.name = split[1];
@@ -112,7 +112,7 @@ public class User {
                     return true;
                 }
             }
-
+            
         }
         return false;
     }
@@ -133,32 +133,32 @@ public class User {
                     return false;
                 }
             }
-
+            
             String hashedPassword = getHash(this.password.getBytes());
             int ID = getFromFile().size();
             String userRole = (this.isAdmin()) ? "admin" : "delivery";
             dbLine.add(ID + "," + this.name + "," + hashedPassword + "," + this.email + "," + userRole + "\n");
-
+            
             return reWriteDB(listToString(dbLine));
         }
         //Invalid email or Name
         return false;
     }
-
+    
     public boolean update() {
         //TODO
         //validation? 
         List<String> fromFile = getFromFile();
-
+        
         int ID = getFromFile().size();
         String hashedPassword = getHash(this.password.getBytes());
         String userRole = (this.isAdmin()) ? "admin" : "delivery";
-
+        
         String line = ID + "," + this.name + "," + hashedPassword + "," + this.email + "," + userRole + "\n";
         fromFile.set(this.id, line);
-
+        
         return reWriteDB(listToString(fromFile));
-
+        
     }
 
     /**
@@ -279,4 +279,13 @@ public class User {
         }
         return success;
     }
+    
+    public static void main(String args[]) {
+        List<String> fromFile = getFromFile();
+        for (int i = 0; i < fromFile.size(); i++) {
+            System.out.println(fromFile.get(i));
+        }
+        
+    }
+    
 }
