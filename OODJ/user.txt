@@ -1,4 +1,9 @@
 ID,Name,Password,Email,Role
-1,Erwin,P@$$w0rd,erwin@erwin.com,admin
-2,Ian,e4bc29dc8068a4f8be92dff03fa14336d460bf5bb185a28f77b3afad8de4fce8,email@email.com,delivery
-3,Ashween,ad855205e3d2c938df218e460ee6c2823044ca27f198c0265d0ca38f8a4be46a,ash@ash.com,delivery
+1,Erwin,90ecc336d6200b1389eb49c4b557ee42892345c2f727453ae82c96e6de94098e,erwins@email.com,delivery
+2,Erwin,90ecc336d6200b1389eb49c4b557ee42892345c2f727453ae82c96e6de94098e,erwin@email.com,delivery
+3,Ian,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8,Ian@email.com,admin
+4,Ian2,90ecc336d6200b1389eb49c4b557ee42892345c2f727453ae82c96e6de94098e,Ian2@email.com,admin
+5,Ian3,90ecc336d6200b1389eb49c4b557ee42892345c2f727453ae82c96e6de94098e,Ian3@email.com,admin
+6,Ian4,90ecc336d6200b1389eb49c4b557ee42892345c2f727453ae82c96e6de94098e,Ian4@email.com,delivery
+7,Ian5,90ecc336d6200b1389eb49c4b557ee42892345c2f727453ae82c96e6de94098e,Ian5@email.com,delivery
+8,Ian6,90ecc336d6200b1389eb49c4b557ee42892345c2f727453ae82c96e6de94098e,Ian6@email.com,admin

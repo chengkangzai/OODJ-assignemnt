@@ -9,6 +9,30 @@ package oodj.User;
  *
  * @author CCK
  */
-public class Admin {
-    
+public class Admin extends User{
+
+    public Admin() {
+    }
+
+    public Admin(String email, String password) {
+        super(email, password);
+    }
+
+    public Admin(String name, String email, String role, String password, int id) {
+        super(name, email, role, password, id);
+    }
+
+    public Admin(int id) {
+        super(id);
+    }
+
+    @Override
+    public boolean isAdmin() {
+        return true;
+    }
+
+    @Override
+    public boolean isAuthenticated() {
+        return true;
+    }
 }
