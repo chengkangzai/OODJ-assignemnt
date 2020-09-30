@@ -28,28 +28,41 @@ public class User {
     private String role;
     private String password;
     private int id;
-    private boolean authenticated;
+    private boolean authenticated = false;
 
     private final static String FILENAME = "user.txt";
     private final static Path PATH = Paths.get(FILENAME);
 
     public User() {
-        this.authenticated = false;
+
     }
 
-    public User(String name, String email) {
-        this.authenticated = false;
-        this.name = name;
+    /**
+     * Mainly use for Login
+     *
+     * @param email
+     * @param password
+     */
+    public User(String email, String password) {
         this.email = email;
+        this.password = password;
     }
 
+    /**
+     * Mainly use within the class and general
+     *
+     * @param name
+     * @param email
+     * @param role
+     * @param password
+     * @param id
+     */
     public User(String name, String email, String role, String password, int id) {
         this.name = name;
         this.email = email;
         this.role = role;
         this.password = getHash(password.getBytes());
         this.id = id;
-        this.authenticated = this.login();
     }
 
     public User(int id) {
@@ -64,7 +77,6 @@ public class User {
                 this.role = split[4];
             }
         }
-        this.authenticated = this.login();
     }
 
     public String getName() {
@@ -91,6 +103,14 @@ public class User {
         this.role = role;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     /**
      *
      * @return
@@ -114,6 +134,7 @@ public class User {
             }
 
         }
+        System.out.println("Invalid Email or Password !");
         return false;
     }
 
@@ -124,41 +145,80 @@ public class User {
      * @return
      */
     public boolean register() {
-        if (isValidEmail(this.email) && isValidString(this.name)) {
+        if (isValidEmail(this.email) && isValidString(this.name) && isValidString(this.password)) {
             List<String> dbLine = getFromFile();
             for (int i = 1; i < dbLine.size(); i++) {
                 String split[] = dbLine.get(i).split(",");
                 if (split[3].equals(email)) {
                     //Email exits in database, hence cannot register this guy
+                    System.out.println("Email exist !");
                     return false;
                 }
             }
 
             String hashedPassword = getHash(this.password.getBytes());
             int ID = getFromFile().size();
-            String userRole = (this.isAdmin()) ? "admin" : "delivery";
-            dbLine.add(ID + "," + this.name + "," + hashedPassword + "," + this.email + "," + userRole + "\n");
+            String userRole = isAdmin() ? "admin" : "delivery";
+            dbLine.add(ID + "," + this.name + "," + hashedPassword + "," + this.email + "," + userRole);
 
             return reWriteDB(listToString(dbLine));
         }
-        //Invalid email or Name
+        System.out.println("Invalid Email or Name or Password !");
         return false;
     }
 
     public boolean update() {
-        //TODO
-        //validation? 
+        List<String> dbLine = getFromFile();
+        if (isValidEmail(this.email) && isValidString(this.name)) {
+
+            for (int i = 1; i < dbLine.size(); i++) {
+                String split[] = dbLine.get(i).split(",");
+                if (split[3].equals(email)) {
+                    this.id = Integer.valueOf(split[0]);
+                }
+            }
+
+            String hashedPassword = getHash(this.password.getBytes());
+            int ID = whereEqual("email", email).id;
+            String userRole = isAdmin() ? "admin" : "delivery";
+            String line = ID + "," + this.name + "," + hashedPassword + "," + this.email + "," + userRole;
+            dbLine.set(this.id, line);
+
+            return reWriteDB(listToString(dbLine));
+        }
+
+        return reWriteDB(listToString(dbLine));
+
+    }
+
+    public User whereEqual(String type, String queryString) {
+        int i = 0;
+        switch (type.toLowerCase()) {
+            case "id":
+                i = 0;
+                break;
+            case "name":
+                i = 1;
+                break;
+            case "email":
+                i = 3;
+                break;
+            case "role":
+                i = 4;
+                break;
+            default:
+                System.out.println("Type not specificied");
+                break;
+        }
         List<String> fromFile = getFromFile();
-
-        int ID = getFromFile().size();
-        String hashedPassword = getHash(this.password.getBytes());
-        String userRole = (this.isAdmin()) ? "admin" : "delivery";
-
-        String line = ID + "," + this.name + "," + hashedPassword + "," + this.email + "," + userRole + "\n";
-        fromFile.set(this.id, line);
-
-        return reWriteDB(listToString(fromFile));
-
+        for (String element : fromFile) {
+            String[] split = element.split(",");
+            if (split[i].equals(queryString)) {
+                return new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0]));
+            }
+        }
+        System.out.println("Hoi Error la ! shame on you copying Laravel");
+        return null;
     }
 
     /**
@@ -169,16 +229,16 @@ public class User {
      * @return
      */
     public static String getHash(byte[] inputBytes) {
-        String hashValue = "";
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(inputBytes);
             byte[] digestedByte = md.digest();
-            hashValue = DatatypeConverter.printHexBinary(digestedByte).toLowerCase();
+            return DatatypeConverter.printHexBinary(digestedByte).toLowerCase();
         } catch (NoSuchAlgorithmException e) {
             System.out.println(e.getMessage());
         }
-        return hashValue;
+        System.out.println("STH wrong la brop");
+        return "";
     }
 
     /**
@@ -189,7 +249,7 @@ public class User {
      * @return true is the string is not empty and not containing coma(,)
      */
     private static boolean isValidString(String input) {
-        return !(input.isEmpty() || input.matches(","));
+        return !(input == null || input.isEmpty() || input.matches(","));
     }
 
     /**
@@ -200,12 +260,9 @@ public class User {
      * @return true if the input string is not empty and is a email
      */
     private static boolean isValidEmail(String email) {
-        if (!isValidString(email)) {
-            return false;
-        }
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         Pattern pat = Pattern.compile(emailRegex);
-        return pat.matcher(email).matches();
+        return isValidString(email) && pat.matcher(email).matches();
     }
 
     /**
@@ -225,7 +282,7 @@ public class User {
      * @return true if the user is admin
      */
     public boolean isAdmin() {
-        return this.isAuthenticated() && "admin".equals(this.role);
+        return "admin".equals(this.role);
     }
 
     /**
@@ -279,4 +336,22 @@ public class User {
         }
         return success;
     }
+
+    public static void main(String args[]) {
+//        User u = new User("Ian3@email.com", "P@$$w0rd");
+//        u.setName("Ian3");
+//        u.setRole("admin");
+//        System.out.println(u.getPassword());
+//        System.out.println(u.getEmail());
+//        System.out.println(u.getName());
+//        u.register();
+
+//        User u = new User("Ian@email.com", "password");
+////        u.setPassword("password");
+////        u.setRole("admin");
+//        System.out.println(u.login());
+//        System.out.println(u.isAdmin());
+//        System.out.println(u.update());
+    }
+
 }

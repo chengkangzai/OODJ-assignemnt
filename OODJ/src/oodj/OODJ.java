@@ -5,8 +5,6 @@
  */
 package oodj;
 
-import oodj.User.User;
-
 /**
  *
  * @author CCK
@@ -17,8 +15,14 @@ public class OODJ {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        User u = new User();
-        System.out.println(u.isAuthenticated());
+//        Admin admin = new Admin("Ian6@email.com","P@$$w0rd");
+//        admin.setName("Ian6");
+//        System.out.println(admin.register());
+
+//        Admin admin1 = new Admin("Ian6@email.com","P@$$w0rd");
+//        System.out.println(admin1.login());
+//        System.out.println(admin1.isAdmin());
+//        System.out.println(admin1.isAuthenticated());
     }
-    
+
 }
