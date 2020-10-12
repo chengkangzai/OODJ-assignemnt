@@ -17,9 +17,9 @@ import java.util.List;
  * @author CCK
  */
 public class Connection {
-    
+
     private final Path PATH;
-    
+
     public Connection(String FILENAME) {
         this.PATH = Paths.get(FILENAME);
     }
@@ -45,7 +45,7 @@ public class Connection {
      * https://rollbar.com/guides/java-throwing-exceptions/
      *
      * @param arraylist
-     * @return 
+     * @return
      */
     public String listToString(List<String> arraylist) {
         String line = new String();
@@ -64,15 +64,42 @@ public class Connection {
      * @param data
      * @return
      */
-    public boolean reWriteDB(String data) {
+    public boolean reWrite(String data) {
         boolean success = false;
         try {
             Files.write(PATH, data.getBytes(), StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE);
             success = true;
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("The connection between text file cannot be initiate");
         }
         return success;
     }
-     
+
+    public String getLastUsedID() {
+        return getFromFile().get(getFromFile().size() - 1).split("\\,")[0];
+    }
+
+    public int getNewID() {
+        return (this.getLastUsedID().equals("ID"))
+                ? 1
+                : Integer.valueOf(this.getLastUsedID()) + 1;
+    }
+
+    public String comma2Pipe(String input) {
+        return input.replace(',', '|');
+    }
+
+    public String pipe2Comma(String input) {
+        return input.replace('|', ',');
+    }
+
+    public static void main(String[] args) {
+        Connection connection = new Connection("deliveries.txt");
+        List<String> fromFile = connection.getFromFile();
+        System.out.println(connection.getNewID());
+        fromFile.forEach((element) -> {
+            System.out.println(element);
+        });
+    }
+
 }

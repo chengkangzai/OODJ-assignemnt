@@ -5,15 +5,20 @@
  */
 package User;
 
+import Helper.Connection;
+import java.util.List;
+
 /**
  *
  * @author CCK
  */
 public class Staff extends User {
 
-    String phoneNumber;
-    String carPlate;
-    Double salary;
+    private String phoneNumber;
+    private String carPlate;
+    private Double salary;
+
+    protected Connection con = new Connection("db/users/staff.txt");
 
     public Staff() {
     }
@@ -24,25 +29,81 @@ public class Staff extends User {
         this.salary = salary;
     }
 
-    public Staff(String phoneNumber, String carPlate, Double salary, String email, String password) {
-        super(email, password);
+    public Staff(String phoneNumber, String carPlate, Double salary, User user) {
+        super(user.getId());
         this.phoneNumber = phoneNumber;
         this.carPlate = carPlate;
         this.salary = salary;
     }
 
-    public Staff(String phoneNumber, String carPlate, Double salary, String name, String email, String role, String password, int id) {
-        super(name, email, role, password, id);
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getCarPlate() {
+        return carPlate;
+    }
+
+    public void setCarPlate(String carPlate) {
         this.carPlate = carPlate;
+    }
+
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
         this.salary = salary;
     }
 
-    public Staff(String phoneNumber, String carPlate, Double salary, int id) {
-        super(id);
-        this.phoneNumber = phoneNumber;
-        this.carPlate = carPlate;
-        this.salary = salary;
+    public Staff where(String type, String queryString) {
+        User user = whereEqual("id", String.valueOf(super.getId()));
+        if (user.isAdmin()) {
+            List<String> fromFile = con.getFromFile();
+            for (int i = 0; i < fromFile.size(); i++) {
+                String[] split = fromFile.get(i).split(",");
+                if (split[0].equals(String.valueOf(user.getId()))) {
+                    return new Staff(split[1], split[2], Double.valueOf(split[3]), user);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public boolean create() {
+        if (!valid.isValidString(carPlate)) {
+            return false;
+        }
+        if (!valid.isValidString(this.phoneNumber)) {
+            return false;
+        }
+        if (this.salary <= 0) {
+            return false;
+        }
+
+        super.create();
+        
+        List<String> fromFile = con.getFromFile();
+        fromFile.set(super.getId(), this.format());
+
+        return con.reWrite(con.listToString(fromFile));
+    }
+
+    @Override
+    public boolean update() {
+        super.update();
+        System.out.println("Hello");
+        return false;
+    }
+
+    private String format() {
+        return super.getId() + "," + this.phoneNumber + "," + this.carPlate + "," + this.salary;
     }
 
     @Override

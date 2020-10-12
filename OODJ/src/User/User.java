@@ -21,13 +21,13 @@ public class User {
     private int id;
     private String name;
     private String email;
-    // 'admin' / 'delivery'
+    // 'admin' / 'staff'
     private String role;
     private String password;
 
     private boolean authenticated = false;
 
-    Connection reader = new Connection("user.txt");
+    Connection reader = new Connection("db/users/users.txt");
     Validator valid = new Validator();
 
     public User() {
@@ -74,6 +74,14 @@ public class User {
                 this.role = split[4];
             }
         }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -145,7 +153,8 @@ public class User {
      *
      * @return
      */
-    public boolean register() {
+    @Deprecated
+    public boolean create() {
         if (!(valid.isValidEmail(email))) {
             System.out.println("Ivalid Email");
             return false;
@@ -170,11 +179,11 @@ public class User {
         }
 
         String hashedPassword = getHash(this.password.getBytes());
-        int ID = reader.getFromFile().size();
+        int ID = reader.getNewID();
         String userRole = isAdmin() ? "admin" : "delivery";
         dbLine.add(ID + "," + this.name + "," + hashedPassword + "," + this.email + "," + userRole);
 
-        return reader.reWriteDB(reader.listToString(dbLine));
+        return reader.reWrite(reader.listToString(dbLine));
 
     }
 
@@ -212,7 +221,7 @@ public class User {
         String line = ID + "," + this.name + "," + hashedPassword + "," + this.email + "," + userRole;
         dbLine.set(this.id, line);
 
-        return reader.reWriteDB(reader.listToString(dbLine));
+        return reader.reWrite(reader.listToString(dbLine));
     }
 
     /**
@@ -270,7 +279,7 @@ public class User {
             System.out.println(e.getMessage());
         }
         System.out.println("STH wrong la brop");
-        return "";
+        return null;
     }
 
     /**
@@ -294,13 +303,13 @@ public class User {
     }
 
     public static void main(String args[]) {
-        User u = new User("Ian7@email.com", "P@$$w0rd");
-        u.setName("Ian7");
+        User u = new User("pycck@hotmail.com", "P@$$w0rd");
+        u.setName("cck");
         u.setRole("admin");
         System.out.println(u.getPassword());
         System.out.println(u.getEmail());
         System.out.println(u.getName());
-        u.register();
+        u.create();
 
 //        User u = new User("Ian@email.com", "password");
 ////        u.setPassword("password");
