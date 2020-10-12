@@ -5,7 +5,7 @@
  */
 package Main;
 
-import User.Staff;
+import User.DeliveryStaff;
 import User.User;
 
 /**

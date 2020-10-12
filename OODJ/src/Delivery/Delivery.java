@@ -7,7 +7,7 @@ package Delivery;
 
 import Helper.Connection;
 import Helper.Validator;
-import User.Staff;
+import User.DeliveryStaff;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -22,13 +22,13 @@ public class Delivery {
     Double weight;
     String address;
     String status;
-    Staff sendBy;
+    DeliveryStaff sendBy;
     String sendOn;
 
     Connection reader = new Connection("db/deliveries.txt");
     Validator valid = new Validator();
 
-    public Delivery(int ID, Double weight, String address, String status, Staff sendBy, String sendOn) {
+    public Delivery(int ID, Double weight, String address, String status, DeliveryStaff sendBy, String sendOn) {
         this.ID = ID;
         this.weight = weight;
         this.address = reader.comma2Pipe(status);
@@ -69,11 +69,11 @@ public class Delivery {
         this.status = status;
     }
 
-    public Staff getSendBy() {
+    public DeliveryStaff getSendBy() {
         return sendBy;
     }
 
-    public void setSendBy(Staff sendBy) {
+    public void setSendBy(DeliveryStaff sendBy) {
         this.sendBy = sendBy;
     }
 
@@ -125,7 +125,7 @@ public class Delivery {
         d.address = "1 Pasar Besar Cheras Jln Cheras Batu 3 1/2 56000 Wilayah Persekutuan 56000 ";
         d.weight = 2.00;
         d.status = "pending";
-        d.sendBy = new Staff();
+        d.sendBy = new DeliveryStaff();
         d.sendOn = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         d.create();
     }

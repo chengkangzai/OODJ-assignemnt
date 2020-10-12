@@ -11,20 +11,20 @@ import Helper.Connection;
  *
  * @author CCK
  */
-public class Admin extends User {
+public class ManagingStaff extends User {
 
     Double Salary;
 
-    protected Connection con = new Connection("db/users/admin.txt");
+    protected Connection con = new Connection("db/users/ManagingStaff.txt");
 
-    public Admin() {
+    public ManagingStaff() {
     }
 
-    public Admin(Double Salary) {
+    public ManagingStaff(Double Salary) {
         this.Salary = Salary;
     }
 
-    public Admin(Double Salary, User user) {
+    public ManagingStaff(Double Salary, User user) {
         super(user.getId());
         this.Salary = Salary;
     }
