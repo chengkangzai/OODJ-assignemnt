@@ -27,8 +27,9 @@ public class User {
 
     private boolean authenticated = false;
 
-    Connection reader = new Connection("db/users/users.txt");
-    Validator valid = new Validator();
+    //protected to let child to use
+    protected final Connection reader = new Connection("db/users/users.txt");
+    protected final Validator valid = new Validator();
 
     public User() {
 

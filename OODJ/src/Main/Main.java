@@ -5,9 +5,6 @@
  */
 package Main;
 
-import User.DeliveryStaff;
-import User.User;
-
 /**
  *
  * @author CCK
@@ -21,7 +18,6 @@ public class Main {
 //        Date test = new Date();
 //        LocalTime myObj = LocalTime.now();
 //        System.out.println(myObj);
-
 //        User u = new User();
 //        u.setEmail("admin@email.com");
 //        u.setName("admin");
@@ -29,15 +25,12 @@ public class Main {
 //        u.setRole("admin");
 //        System.out.println(u.create());
 //        Admin admin = new Admin(100.00, new User().whereEqual("id", "1"));
-
-        User u = new User();
-        u.setEmail("staff@email.com");
-        u.setName("staff");
-        u.setPassword("P@$$w0rd");
-        u.setRole("staff");
-        System.out.println(u.create());
-
-
+//        User u = new User();
+//        u.setEmail("staff@email.com");
+//        u.setName("staff");
+//        u.setPassword("P@$$w0rd");
+//        u.setRole("staff");
+//        System.out.println(u.create());
 //        admin.setName("Ian6");
 //        System.out.println(admin.create());
 //        Admin admin1 = new Admin("Ian6@email.com","P@$$w0rd");

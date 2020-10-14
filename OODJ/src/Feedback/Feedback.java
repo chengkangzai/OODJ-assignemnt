@@ -15,10 +15,11 @@ import java.util.List;
  */
 public class Feedback {
 
-    int ID;
-    String feedback;
-    Connection reader = new Connection("db/feedbacks.txt");
-    Validator valid = new Validator();
+    private int ID;
+    private String feedback;
+    
+    private final Connection reader = new Connection("db/feedbacks.txt");
+    private final Validator valid = new Validator();
 
     public Feedback() {
     }
@@ -100,7 +101,7 @@ public class Feedback {
 
     private String format() {
         if (!valid.isValidString(feedback)) {
-            return "";
+            return null;
         }
         return reader.getNewID() + "," + feedback;
     }

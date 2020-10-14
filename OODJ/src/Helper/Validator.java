@@ -24,7 +24,7 @@ public class Validator {
      * @return true is the string is not empty and not containing coma(,)
      */
     public boolean isValidString(String input) {
-        return !(input == null || input.isEmpty() || input.matches(","));
+        return !(input == null || input.isEmpty() || input.contains(","));
     }
 
     /**
@@ -38,5 +38,9 @@ public class Validator {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         Pattern pat = Pattern.compile(emailRegex);
         return pat.matcher(email).matches() && isValidString(email);
+    }
+
+    public boolean isValidOperator(String queryOperator) {
+        return queryOperator.contains(">") || queryOperator.contains("<") || queryOperator.contains(">=") || queryOperator.contains("<=") || queryOperator.contains("=") || queryOperator.contains("==") || queryOperator.contains("===");
     }
 }

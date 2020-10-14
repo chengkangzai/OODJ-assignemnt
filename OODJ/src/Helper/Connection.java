@@ -20,6 +20,8 @@ public class Connection {
 
     private final Path PATH;
 
+    Validator valid = new Validator();
+
     public Connection(String FILENAME) {
         this.PATH = Paths.get(FILENAME);
     }
@@ -94,12 +96,12 @@ public class Connection {
     }
 
     public static void main(String[] args) {
-        Connection connection = new Connection("deliveries.txt");
-        List<String> fromFile = connection.getFromFile();
-        System.out.println(connection.getNewID());
-        fromFile.forEach((element) -> {
-            System.out.println(element);
-        });
+//        Connection connection = new Connection("deliveries.txt");
+//        List<String> fromFile = connection.getFromFile();
+//        System.out.println(connection.getNewID());
+//        fromFile.forEach((element) -> {
+//            System.out.println(element);
+//        });
     }
 
 }
