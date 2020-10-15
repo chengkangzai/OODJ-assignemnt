@@ -40,6 +40,13 @@ public class Validator {
         return pat.matcher(email).matches() && isValidString(email);
     }
 
+    /**
+     *
+     * Validate the operator as String used at array
+     * 
+     * @param queryOperator
+     * @return
+     */
     public boolean isValidOperator(String queryOperator) {
         return queryOperator.contains(">") || queryOperator.contains("<") || queryOperator.contains(">=") || queryOperator.contains("<=") || queryOperator.contains("=") || queryOperator.contains("==") || queryOperator.contains("===");
     }

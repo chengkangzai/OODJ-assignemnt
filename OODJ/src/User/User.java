@@ -6,7 +6,6 @@
 package User;
 
 import Helper.Connection;
-import Helper.Validator;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -16,7 +15,7 @@ import javax.xml.bind.DatatypeConverter;
  *
  * @author CCK
  */
-public class User {
+public class User extends Model {
 
     private int id;
     private String name;
@@ -29,10 +28,8 @@ public class User {
 
     //protected to let child to use
     protected final Connection reader = new Connection("db/users/users.txt");
-    protected final Validator valid = new Validator();
 
     public User() {
-
     }
 
     /**
@@ -154,7 +151,6 @@ public class User {
      *
      * @return
      */
-    @Deprecated
     public boolean create() {
         if (!(valid.isValidEmail(email))) {
             System.out.println("Ivalid Email");
@@ -217,7 +213,7 @@ public class User {
         }
 
         String hashedPassword = getHash(this.password.getBytes());
-        int ID = whereEqual("email", email).id;
+        int ID = where("email", email).id;
         String userRole = isAdmin() ? "admin" : "delivery";
         String line = ID + "," + this.name + "," + hashedPassword + "," + this.email + "," + userRole;
         dbLine.set(this.id, line);
@@ -233,7 +229,8 @@ public class User {
      * @param queryString
      * @return User
      */
-    public User whereEqual(String type, String queryString) {
+    @Override
+    public User where(String type, String queryString) {
         int i = 0;
         switch (type.toLowerCase()) {
             case "id":
@@ -264,13 +261,29 @@ public class User {
     }
 
     /**
+     *
+     * you should not use this method... but for the sake of Abstraction ...
+     * yeah
+     *
+     * @param type
+     * @param queryOperator
+     * @param queryString
+     * @return
+     */
+    @Override
+    public User where(String type, String queryOperator, String queryString) {
+        return this.where(type, queryString);
+    }
+
+    /**
      * Get the hashed value of the input Bytes
      * https://www.tutorialspoint.com/java_cryptography/java_cryptography_message_digest.htm
      *
      * @param inputBytes
      * @return
      */
-    public static String getHash(byte[] inputBytes) {
+    @Override
+    public String getHash(byte[] inputBytes) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(inputBytes);
@@ -289,6 +302,7 @@ public class User {
      *
      * @return true if the user is authenticated
      */
+    @Override
     public boolean isAuthenticated() {
         return this.authenticated;
     }
@@ -299,6 +313,7 @@ public class User {
      *
      * @return true if the user is admin
      */
+    @Override
     public boolean isAdmin() {
         return "admin".equals(this.role);
     }

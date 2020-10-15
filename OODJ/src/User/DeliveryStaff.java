@@ -71,14 +71,7 @@ public class DeliveryStaff extends User {
         this.ID = ID;
     }
 
-    public Connection getCon() {
-        return con;
-    }
-
-    public void setCon(Connection con) {
-        this.con = con;
-    }
-
+    @Override
     public DeliveryStaff where(String type, String queryString) {
         int i = 0;
         switch (type.toLowerCase()) {
@@ -107,12 +100,11 @@ public class DeliveryStaff extends User {
             String[] split = fromFile.get(j).split(",");
             if (split[i].equals(String.valueOf(queryString))) {
                 return new DeliveryStaff(Integer.valueOf(split[0]), split[1], split[2], Double.valueOf(split[3]),
-                        new User().whereEqual("id", split[4])
+                        new User().where("id", split[4])
                 );
             }
 
         }
-        System.out.println("User Not Found bitch");
         return null;
     }
 
@@ -128,7 +120,6 @@ public class DeliveryStaff extends User {
             return false;
         }
 
-        
         List<String> fromFile = con.getFromFile();
 
         if (getIndex() == 0) {

@@ -6,17 +6,18 @@
 package Delivery;
 
 import Helper.Connection;
-import Helper.Validator;
 import User.DeliveryStaff;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import Interfaces.*;
+import Order.Order;
 
 /**
  *
  * @author CCK
  */
-public class Delivery {
+public class Delivery implements Creatable, Updatable, Queryable, Validable {
 
     private int ID;
     private Double weight;
@@ -25,9 +26,9 @@ public class Delivery {
     private String status;
     private DeliveryStaff sendBy;
     private LocalDateTime sendOn;
+    private Order order;
 
     private final Connection reader = new Connection("db/deliveries.txt");
-    private final Validator valid = new Validator();
 
     public Delivery(int ID) {
         this.ID = ID;
@@ -36,7 +37,7 @@ public class Delivery {
     public Delivery() {
     }
 
-    public Delivery(int ID, Double weight, String address, String status, DeliveryStaff sendBy, LocalDateTime sendOn) {
+    public Delivery(int ID, Double weight, String address, String status, DeliveryStaff sendBy, LocalDateTime sendOn, Order order) {
         this.ID = ID;
         this.weight = weight;
         this.address = address;
@@ -93,9 +94,17 @@ public class Delivery {
         this.sendOn = sendOn;
     }
 
+    public Order getOrder() {
+        return this.order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
     /**
      * Get certain Delivery by using where statement like laravel
-     * 
+     *
      * @param type
      * @param queryString
      * @return
@@ -129,20 +138,13 @@ public class Delivery {
         for (String element : fromFile) {
             String[] split = element.split(",");
             if (split[i].equals(queryString)) {
-                if (split[3].equals("pending")) {
-                    return new Delivery(
-                            Integer.valueOf(split[0]),
-                            Double.valueOf(split[1]), split[2], split[3],
-                            new DeliveryStaff(),
-                            LocalDateTime.parse(split[5]));
-
-                } else if (split[3].equals("delivered")) {
-                    return new Delivery(
-                            Integer.valueOf(split[0]),
-                            Double.valueOf(split[1]), split[2], split[3],
-                            new DeliveryStaff().where("user_id", split[4]),
-                            LocalDateTime.parse(split[5]));
-                }
+                return new Delivery(
+                        Integer.valueOf(split[0]),
+                        Double.valueOf(split[1]), split[2], split[3],
+                        new DeliveryStaff().where("user_id", split[4]),
+                        LocalDateTime.parse(split[5]),
+                        new Order().where("id", split[6])
+                );
             }
         }
         System.out.println("Hoi Error la ! shame on you copying Laravel");
@@ -153,7 +155,7 @@ public class Delivery {
      *
      * Get array of Delivery with where statement
      * https://howtodoinjava.com/java/date-time/compare-localdatetime/
-     * 
+     *
      * @param type
      * @param queryOperator
      * @param queryString
@@ -170,8 +172,14 @@ public class Delivery {
             case "weight":
                 i = 1;
                 break;
+            case "sendby":
+                i = 4;
+                break;
             case "sendon":
                 i = 5;
+                break;
+            case "order_id":
+                i = 6;
                 break;
             default:
                 System.out.println("Type not specificied or supported\n Support Type : id,weight,sendon");
@@ -194,63 +202,43 @@ public class Delivery {
                 String statusInFile = split[3];
                 switch (queryOperator) {
                     case ">":
-                        if (fileQuery > query && statusInFile.equals("pending")) {
-                            temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
-                                    Double.valueOf(split[1]), split[2], split[3],
-                                    new DeliveryStaff(),
-                                    LocalDateTime.parse(split[5])));
-                        } else if (fileQuery > query && statusInFile.equals("delivered")) {
+                        if (fileQuery > query) {
                             temp.add(new Delivery(
                                     Integer.valueOf(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
-                                    LocalDateTime.parse(split[5])));
+                                    LocalDateTime.parse(split[5]),
+                                    new Order().where("id", split[6])));
                         }
                         break;
                     case ">=":
-                        if (fileQuery >= query && statusInFile.equals("pending")) {
-                            temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
-                                    Double.valueOf(split[1]), split[2], split[3],
-                                    new DeliveryStaff(),
-                                    LocalDateTime.parse(split[5])));
-                        } else if (fileQuery >= query && statusInFile.equals("delivered")) {
+                        if (fileQuery >= query) {
                             temp.add(new Delivery(
                                     Integer.valueOf(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
-                                    LocalDateTime.parse(split[5])));
+                                    LocalDateTime.parse(split[5]),
+                                    new Order().where("id", split[6])));
                         }
                         break;
                     case "<":
-                        if (fileQuery < query && statusInFile.equals("pending")) {
-                            temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
-                                    Double.valueOf(split[1]), split[2], split[3],
-                                    new DeliveryStaff(),
-                                    LocalDateTime.parse(split[5])));
-                        } else if (fileQuery < query && statusInFile.equals("delivered")) {
+                        if (fileQuery < query) {
                             temp.add(new Delivery(
                                     Integer.valueOf(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
-                                    LocalDateTime.parse(split[5])));
+                                    LocalDateTime.parse(split[5]),
+                                    new Order().where("id", split[6])));
                         }
                         break;
                     case "<=":
-                        if (fileQuery <= query && statusInFile.equals("pending")) {
-                            temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
-                                    Double.valueOf(split[1]), split[2], split[3],
-                                    new DeliveryStaff(),
-                                    LocalDateTime.parse(split[5])));
-                        } else if (fileQuery <= query && statusInFile.equals("delivered")) {
+                        if (fileQuery <= query) {
                             temp.add(new Delivery(
                                     Integer.valueOf(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
-                                    LocalDateTime.parse(split[5])));
+                                    LocalDateTime.parse(split[5]),
+                                    new Order().where("id", split[6])));
                         }
                         break;
                     case "=":
@@ -260,14 +248,9 @@ public class Delivery {
                             temp.add(new Delivery(
                                     Integer.valueOf(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
-                                    new DeliveryStaff(),
-                                    LocalDateTime.parse(split[5])));
-                        } else if (fileQuery.equals(query) && statusInFile.equals("delivered")) {
-                            temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
-                                    Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
-                                    LocalDateTime.parse(split[5])));
+                                    LocalDateTime.parse(split[5]),
+                                    new Order().where("id", split[6])));
                         }
                         break;
                 }
@@ -275,7 +258,6 @@ public class Delivery {
         }
 
         if (i == 5) {
-
             LocalDateTime queryTime = LocalDateTime.parse(queryString);
             for (int j = 1; j < fromFile.size(); j++) {
                 String[] split = fromFile.get(j).split(",");
@@ -283,85 +265,55 @@ public class Delivery {
                 String statusInFile = split[3];
                 switch (queryOperator.toLowerCase()) {
                     case ">":
-
-                        if (fileTime.isAfter(queryTime) && statusInFile.equals("pending")) {
-                            temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
-                                    Double.valueOf(split[1]), split[2], split[3],
-                                    new DeliveryStaff(),
-                                    LocalDateTime.parse(split[5])));
-                        } else if (fileTime.isAfter(queryTime) && statusInFile.equals("delivered")) {
+                        if (fileTime.isAfter(queryTime)) {
                             temp.add(new Delivery(
                                     Integer.valueOf(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
-                                    LocalDateTime.parse(split[5])));
+                                    LocalDateTime.parse(split[5]),
+                                    new Order().where("id", split[6])));
                         }
                         break;
-
                     case ">=":
-
-                        if ((fileTime.isAfter(queryTime) || fileTime.isEqual(queryTime)) && statusInFile.equals("pending")) {
-                            temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
-                                    Double.valueOf(split[1]), split[2], split[3],
-                                    new DeliveryStaff(),
-                                    LocalDateTime.parse(split[5])));
-                        } else if ((fileTime.isAfter(queryTime) || fileTime.isEqual(queryTime)) && statusInFile.equals("delivered")) {
+                        if (fileTime.isAfter(queryTime) || fileTime.isEqual(queryTime)) {
                             temp.add(new Delivery(
                                     Integer.valueOf(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
-                                    LocalDateTime.parse(split[5])));
+                                    LocalDateTime.parse(split[5]),
+                                    new Order().where("id", split[6])));
                         }
                         break;
                     case "<":
-
-                        if (fileTime.isBefore(queryTime) && statusInFile.equals("pending")) {
-                            temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
-                                    Double.valueOf(split[1]), split[2], split[3],
-                                    new DeliveryStaff(),
-                                    LocalDateTime.parse(split[5])));
-                        } else if (fileTime.isBefore(queryTime) && statusInFile.equals("delivered")) {
+                        if (fileTime.isBefore(queryTime)) {
                             temp.add(new Delivery(
                                     Integer.valueOf(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
-                                    LocalDateTime.parse(split[5])));
+                                    LocalDateTime.parse(split[5]),
+                                    new Order().where("id", split[6])));
                         }
                         break;
                     case "<=":
-                        if ((fileTime.isBefore(queryTime) || fileTime.isEqual(queryTime)) && statusInFile.equals("pending")) {
-                            temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
-                                    Double.valueOf(split[1]), split[2], split[3],
-                                    new DeliveryStaff(),
-                                    LocalDateTime.parse(split[5])));
-                        } else if ((fileTime.isBefore(queryTime) || fileTime.isEqual(queryTime)) && statusInFile.equals("delivered")) {
+                        if (fileTime.isBefore(queryTime) || fileTime.isEqual(queryTime)) {
                             temp.add(new Delivery(
                                     Integer.valueOf(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
-                                    LocalDateTime.parse(split[5])));
+                                    LocalDateTime.parse(split[5]),
+                                    new Order().where("id", split[6])));
                         }
-
                         break;
                     case "=":
                     case "==":
                     case "===":
-                        if (fileTime.isEqual(queryTime) && statusInFile.equals("pending")) {
-                            temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
-                                    Double.valueOf(split[1]), split[2], split[3],
-                                    new DeliveryStaff(),
-                                    LocalDateTime.parse(split[5])));
-                        } else if (fileTime.isEqual(queryTime) && statusInFile.equals("delivered")) {
+                        if (fileTime.isEqual(queryTime)) {
                             temp.add(new Delivery(
                                     Integer.valueOf(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
-                                    LocalDateTime.parse(split[5])));
+                                    LocalDateTime.parse(split[5]),
+                                    new Order().where("id", split[6])));
                         }
                         break;
                 }
@@ -372,11 +324,12 @@ public class Delivery {
 
     /**
      * Create Delivery
+     *
      * @return
      */
-    public Boolean create() {
-        if (!(status.equals("pending")||status.equals("delivered"))) {
-            return null;
+    public boolean create() {
+        if (!(status.equals("pending") || status.equals("delivered"))) {
+            return false;
         }
         List<String> fromFile = reader.getFromFile();
         fromFile.add(this.format(true));
@@ -386,12 +339,12 @@ public class Delivery {
     /**
      *
      * Update Delivery
-     * 
+     *
      * @return Boolean
      */
-    public Boolean update() {
-        if (!(status.equals("pending")||status.equals("delivered"))) {
-            return null;
+    public boolean update() {
+        if (!(status.equals("pending") || status.equals("delivered"))) {
+            return false;
         }
         List<String> fromFile = reader.getFromFile();
         fromFile.set(this.ID, this.format(false));
@@ -401,7 +354,7 @@ public class Delivery {
     /**
      *
      * Mark the delivery is delivered by a delivery Staff
-     * 
+     *
      * @param staff
      * @return
      */
@@ -425,8 +378,8 @@ public class Delivery {
             return null;
         }
         return isCreating
-                ? reader.getNewID() + "," + this.weight + "," + reader.comma2Pipe(this.address) + "," + this.status + "," + this.sendBy.getId() + "," + this.sendOn
-                : this.ID + "," + this.weight + "," + reader.comma2Pipe(this.address) + "," + this.status + "," + this.sendBy.getId() + "," + this.sendOn;
+                ? reader.getNewID() + "," + this.weight + "," + reader.comma2Pipe(this.address) + "," + this.status + "," + this.sendBy.getId() + "," + this.sendOn + "," + this.order.getID()
+                : this.ID + "," + this.weight + "," + reader.comma2Pipe(this.address) + "," + this.status + "," + this.sendBy.getId() + "," + this.sendOn + "," + this.order.getID();
     }
 
     public static void main(String[] args) {
@@ -445,8 +398,9 @@ public class Delivery {
 //create
 //        Delivery d = new Delivery();
 //        d.setAddress("1, Pasar Besar Cheras, Jln Cheras, Batu 3 1/2, 56000, Wilayah Persekutuan");
-//        d.setWeight(Math.random()*100);
+//        d.setWeight(Double.valueOf(Math.round(Math.random() * 100)));
 //        d.setStatus("pending");
+//        d.setOrder(new Order());
 //        d.setSendBy(new DeliveryStaff());
 //        d.setSendOn(LocalDateTime.MIN);
 //        d.create();
@@ -465,6 +419,8 @@ public class Delivery {
 //        System.out.println(new Delivery().where("sendOn", ">=", LocalDateTime.MIN.toString()));
 //        System.out.println(new Delivery().where("sendOn", ">", LocalDateTime.MIN.toString()));
 //        System.out.println(new Delivery().where("sendOn", "<", LocalDateTime.MIN.toString()));
-        
+        //Query one 
+        Delivery d = new Delivery().where("id", "1");
+        System.out.println(d.getOrder());
     }
 }

@@ -22,6 +22,10 @@ public class Connection {
 
     Validator valid = new Validator();
 
+    public Connection() {
+        this.PATH = Paths.get("test");
+    }
+
     public Connection(String FILENAME) {
         this.PATH = Paths.get(FILENAME);
     }

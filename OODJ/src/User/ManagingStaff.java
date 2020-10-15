@@ -13,7 +13,9 @@ import Helper.Connection;
  */
 public class ManagingStaff extends User {
 
+    private int ID;
     private Double Salary;
+    private String Position;
 
     protected final Connection con = new Connection("db/users/ManagingStaff.txt");
 
@@ -24,9 +26,10 @@ public class ManagingStaff extends User {
         this.Salary = Salary;
     }
 
-    public ManagingStaff(Double Salary, User user) {
+    public ManagingStaff(Double Salary, String Position, User user) {
         super(user.getId());
         this.Salary = Salary;
+        this.Position = Position;
     }
 
     public Double getSalary() {
@@ -37,11 +40,19 @@ public class ManagingStaff extends User {
         this.Salary = Salary;
     }
 
-    public ManagingStaff where(String type,String queryString) {
+    public String getPosition() {
+        return Position;
+    }
+
+    public void setPosition(String Position) {
+        this.Position = Position;
+    }
+
+    public ManagingStaff where(String type, String queryString) {
         //TODO
         return new ManagingStaff();
     }
-    
+
     @Override
     public boolean isAdmin() {
         return true;

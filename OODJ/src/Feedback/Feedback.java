@@ -6,20 +6,20 @@
 package Feedback;
 
 import Helper.Connection;
-import Helper.Validator;
+import java.util.ArrayList;
 import java.util.List;
+import Interfaces.*;
 
 /**
  *
  * @author CCK
  */
-public class Feedback {
+public class Feedback implements Creatable, Deletable, Validable, Queryable {
 
     private int ID;
     private String feedback;
-    
+
     private final Connection reader = new Connection("db/feedbacks.txt");
-    private final Validator valid = new Validator();
 
     public Feedback() {
     }
@@ -99,6 +99,47 @@ public class Feedback {
         return null;
     }
 
+    public ArrayList<Feedback> where(String type, String queryOperator, String queryString) {
+        if (!valid.isValidOperator(queryOperator)) {
+            return null;
+        }
+        if (!type.equals("id")) {
+            return null;
+        }
+
+        ArrayList<Feedback> temp = new ArrayList<>();
+        int queryID = Integer.valueOf(queryString);
+        List<String> fromFile = reader.getFromFile();
+
+        for (int i = 1; i < fromFile.size(); i++) {
+            String[] split = fromFile.get(i).split(",");
+            int idFile = Integer.valueOf(split[0]);
+            switch (queryOperator) {
+                case ">":
+                    if (idFile > queryID) {
+                        temp.add(new Feedback(Integer.valueOf(split[0]), split[1]));
+                    }
+                    break;
+                case ">=":
+                    if (idFile >= queryID) {
+                        temp.add(new Feedback(Integer.valueOf(split[0]), split[1]));
+                    }
+                    break;
+                case "<":
+                    if (idFile < queryID) {
+                        temp.add(new Feedback(Integer.valueOf(split[0]), split[1]));
+                    }
+                    break;
+                case "<=":
+                    if (idFile <= queryID) {
+                        temp.add(new Feedback(Integer.valueOf(split[0]), split[1]));
+                    }
+                    break;
+            }
+        }
+        return temp;
+    }
+
     private String format() {
         if (!valid.isValidString(feedback)) {
             return null;
@@ -106,4 +147,10 @@ public class Feedback {
         return reader.getNewID() + "," + feedback;
     }
 
+    public static void main(String[] args) {
+        System.out.println(new Feedback().where("id", ">", "1"));
+        System.out.println(new Feedback().where("id", ">=", "1"));
+        System.out.println(new Feedback().where("id", "<", "3"));
+        System.out.println(new Feedback().where("id", "<=", "3"));
+    }
 }
