@@ -5,6 +5,8 @@
  */
 package Main;
 
+import User.User;
+
 /**
  *
  * @author CCK

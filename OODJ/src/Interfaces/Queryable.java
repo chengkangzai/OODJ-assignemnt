@@ -11,7 +11,24 @@ package Interfaces;
  */
 public interface Queryable {
 
+    /**
+     *
+     * Model should be queryable by where operator
+     * 
+     * @param type
+     * @param queryOperator
+     * @param queryString
+     * @return
+     */
     public Object where(String type, String queryOperator, String queryString);
 
+    /**
+     *
+     * Model should be queryable by where 
+     * 
+     * @param type
+     * @param queryString
+     * @return
+     */
     public Object where(String type, String queryString);
 }

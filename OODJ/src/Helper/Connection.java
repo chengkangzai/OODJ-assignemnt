@@ -22,12 +22,15 @@ public class Connection {
 
     Validator valid = new Validator();
 
+    /**
+     * For the sake of Interface implementation...
+     */
     public Connection() {
         this.PATH = Paths.get("test");
     }
 
     public Connection(String FILENAME) {
-        this.PATH = Paths.get("db/"+FILENAME+".csv");
+        this.PATH = Paths.get("db/" + FILENAME + ".csv");
     }
 
     /**
@@ -81,20 +84,40 @@ public class Connection {
         return success;
     }
 
-    public String getLastUsedID() {
+    private String getLastUsedID() {
         return getFromFile().get(getFromFile().size() - 1).split("\\,")[0];
     }
 
+    /**
+     *
+     * Get new ID for the model
+     * 
+     * @return
+     */
     public int getNewID() {
-        return (this.getLastUsedID().equals("ID"))
+        return this.getLastUsedID().equals("ID")
                 ? 1
                 : Integer.valueOf(this.getLastUsedID()) + 1;
     }
 
+    /**
+     *
+     * Change comma to pipe
+     * 
+     * @param input
+     * @return
+     */
     public String comma2Pipe(String input) {
         return input.replace(',', '|');
     }
 
+    /**
+     * 
+     * Change pipe to comma (Display purpose)
+     *
+     * @param input
+     * @return
+     */
     public String pipe2Comma(String input) {
         return input.replace('|', ',');
     }

@@ -13,12 +13,31 @@ import Interfaces.*;
  */
 abstract public class Model implements Creatable, Updatable, Queryable, Validable {
 
+    /**
+     *
+     * Get the hashed value of input Bytes
+     *
+     * @param inputBytes
+     * @return
+     */
     abstract public String getHash(byte[] inputBytes);
 
+    /**
+     *
+     * Determine if the mode is admin
+     *
+     * @return
+     */
     public boolean isAdmin() {
         return false;
     }
 
+    /**
+     *
+     * Determine if the mode is Authenticated
+     *
+     * @return
+     */
     public boolean isAuthenticated() {
         return false;
     }

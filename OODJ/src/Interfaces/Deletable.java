@@ -12,5 +12,12 @@ package Interfaces;
  */
 
 public interface Deletable {
+
+    /**
+     *
+     * Model should be deletable
+     * 
+     * @return
+     */
     public boolean delete();
 }

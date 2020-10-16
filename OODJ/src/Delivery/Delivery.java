@@ -40,6 +40,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
         this.status = status;
         this.sendBy = sendBy;
         this.sendOn = sendOn;
+        this.order = order;
     }
 
     public int getID() {
@@ -101,6 +102,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
      * @param queryString
      * @return
      */
+    @Override
     public Delivery where(String type, String queryString) {
         int i = 0;
         switch (type.toLowerCase()) {
@@ -153,6 +155,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
      * @param queryString
      * @return
      */
+    @Override
     public ArrayList<Delivery> where(String type, String queryOperator, String queryString) {
         //Weight, Send On...        
         //< , >, >=, <= 
@@ -319,6 +322,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
      *
      * @return
      */
+    @Override
     public boolean create() {
         if (!(status.equals("pending") || status.equals("delivered"))) {
             return false;
@@ -334,6 +338,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
      *
      * @return Boolean
      */
+    @Override
     public boolean update() {
         if (!(status.equals("pending") || status.equals("delivered"))) {
             return false;
@@ -392,8 +397,8 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
 //        d.setAddress("1, Pasar Besar Cheras, Jln Cheras, Batu 3 1/2, 56000, Wilayah Persekutuan");
 //        d.setWeight(Double.valueOf(Math.round(Math.random() * 100)));
 //        d.setStatus("pending");
-//        d.setOrder(new Order());
-//        d.setSendBy(new DeliveryStaff());
+//        d.setOrder(new Order().where("id", "1"));
+//        d.setSendBy(new DeliveryStaff().where("id", "1"));
 //        d.setSendOn(LocalDateTime.MIN);
 //        d.create();
 //queryAll
@@ -412,7 +417,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
 //        System.out.println(new Delivery().where("sendOn", ">", LocalDateTime.MIN.toString()));
 //        System.out.println(new Delivery().where("sendOn", "<", LocalDateTime.MIN.toString()));
         //Query one 
-        Delivery d = new Delivery().where("id", "1");
-        System.out.println(d.getOrder());
+//        Delivery d = new Delivery().where("id", "1");
+//        System.out.println(d.getOrder());
     }
 }
