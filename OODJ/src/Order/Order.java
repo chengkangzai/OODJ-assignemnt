@@ -2,12 +2,9 @@ package Order;
 
 import Helper.Connection;
 import Helper.Validator;
-import Interfaces.Queryable;
-import Interfaces.Validable;
+import Interfaces.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import Interfaces.Creatable;
-import Interfaces.Updatable;
 
 /**
  *
