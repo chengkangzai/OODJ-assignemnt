@@ -17,7 +17,7 @@ public class ManagingStaff extends User {
     private Double Salary;
     private String Position;
 
-    protected final Connection con = new Connection("db/users/ManagingStaff.txt");
+    protected final Connection con = new Connection("users/ManagingStaff");
 
     public ManagingStaff() {
     }

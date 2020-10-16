@@ -27,7 +27,7 @@ public class Connection {
     }
 
     public Connection(String FILENAME) {
-        this.PATH = Paths.get(FILENAME);
+        this.PATH = Paths.get("db/"+FILENAME+".csv");
     }
 
     /**

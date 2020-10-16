@@ -1,7 +1,6 @@
 package Order;
 
 import Helper.Connection;
-import Helper.Validator;
 import Interfaces.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,13 +11,12 @@ import java.util.ArrayList;
  */
 public class Order implements Creatable, Updatable, Validable, Queryable {
 
-    int ID;
-    Double price;
-    LocalDateTime createdAt;
-    LocalDateTime payAt;
+    private int ID;
+    private Double price;
+    private LocalDateTime createdAt;
+    private LocalDateTime payAt;
 
-    Connection reader = new Connection("db/order.txt");
-    Validator valid = new Validator();
+    private final static Connection reader = new Connection("orders");
 
     public Order(Integer ID, Double price, LocalDateTime createdAt, LocalDateTime payAt) {
         this.ID = ID;
@@ -32,10 +30,6 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
 
     public int getID() {
         return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
     }
 
     public Double getPrice() {

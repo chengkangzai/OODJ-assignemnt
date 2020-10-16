@@ -28,11 +28,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
     private LocalDateTime sendOn;
     private Order order;
 
-    private final Connection reader = new Connection("db/deliveries.txt");
-
-    public Delivery(int ID) {
-        this.ID = ID;
-    }
+    private final Connection reader = new Connection("deliveries");
 
     public Delivery() {
     }
@@ -48,10 +44,6 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
 
     public int getID() {
         return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
     }
 
     public Double getWeight() {

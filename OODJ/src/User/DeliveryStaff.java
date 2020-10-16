@@ -19,7 +19,7 @@ public class DeliveryStaff extends User {
     private String carPlate;
     private Double salary;
 
-    protected Connection con = new Connection("db/users/DeliveryStaff.txt");
+    protected Connection con = new Connection("users/DeliveryStaff");
 
     public DeliveryStaff() {
     }

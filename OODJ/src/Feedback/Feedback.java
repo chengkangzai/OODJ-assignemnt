@@ -19,7 +19,7 @@ public class Feedback implements Creatable, Deletable, Validable, Queryable {
     private int ID;
     private String feedback;
 
-    private final Connection reader = new Connection("db/feedbacks.txt");
+    private final Connection reader = new Connection("feedbacks");
 
     public Feedback() {
     }

@@ -27,7 +27,7 @@ public class User extends Model {
     private boolean authenticated = false;
 
     //protected to let child to use
-    protected final Connection reader = new Connection("db/users/users.txt");
+    protected final Connection reader = new Connection("users/users");
 
     public User() {
     }
