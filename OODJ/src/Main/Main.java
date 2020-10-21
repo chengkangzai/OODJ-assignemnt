@@ -5,7 +5,7 @@
  */
 package Main;
 
-import User.User;
+import Model.User.User;
 
 /**
  *
