@@ -5,7 +5,8 @@
  */
 package Main;
 
-import Model.User.User;
+import Model.Delivery.Delivery;
+import Model.Order.Order;
 
 /**
  *
@@ -17,6 +18,13 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Order o = new Order();
+        o.create();
+        Delivery d = new Delivery();
+        d.create();
+        
+        
+        
 //        Date test = new Date();
 //        LocalTime myObj = LocalTime.now();
 //        System.out.println(myObj);

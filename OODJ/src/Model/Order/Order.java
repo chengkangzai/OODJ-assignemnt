@@ -131,7 +131,7 @@ public class Order implements Creatable, Updatable, Validable, Deletable, Querya
 
         ArrayList<Order> temp = new ArrayList();
         List<String> fromFile = reader.getFromFile();
-        
+
         if ((i == 0) || (i == 1)) {
             int query = Integer.valueOf(queryString);
             for (int j = 1; j < fromFile.size(); j++) {
@@ -258,10 +258,15 @@ public class Order implements Creatable, Updatable, Validable, Deletable, Querya
         return temp;
     }
 
+    @Override
+    public ArrayList<Order> all() {
+        return this.where("id", ">=", "1");
+    }
+
     /**
      *
      * Create one Order
-     * 
+     *
      * @return
      */
     @Override
@@ -275,7 +280,7 @@ public class Order implements Creatable, Updatable, Validable, Deletable, Querya
     /**
      *
      * Update Order
-     * 
+     *
      * @return
      */
     @Override
@@ -288,7 +293,7 @@ public class Order implements Creatable, Updatable, Validable, Deletable, Querya
     /**
      *
      * Delete Order
-     * 
+     *
      * @return
      */
     @Override

@@ -80,6 +80,7 @@ public class Feedback implements Creatable, Deletable, Validable, Queryable {
      * @param queryString
      * @return
      */
+    @Override
     public Feedback where(String type, String queryString) {
         int i = 0;
         switch (type.toLowerCase()) {
@@ -104,6 +105,15 @@ public class Feedback implements Creatable, Deletable, Validable, Queryable {
         return null;
     }
 
+    /**
+     *
+     * Get Feedback by using where statement
+     *
+     * @param type
+     * @param queryString
+     * @return
+     */
+    @Override
     public ArrayList<Feedback> where(String type, String queryOperator, String queryString) {
         if (!valid.isValidOperator(queryOperator)) {
             return null;
@@ -143,6 +153,11 @@ public class Feedback implements Creatable, Deletable, Validable, Queryable {
             }
         }
         return temp;
+    }
+
+    @Override
+    public ArrayList<Feedback> all() {
+        return this.where("id", ">=", "1");
     }
 
     private String format() {

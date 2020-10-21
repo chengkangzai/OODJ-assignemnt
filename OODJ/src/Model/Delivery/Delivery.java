@@ -320,6 +320,11 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
         return temp;
     }
 
+    @Override
+    public ArrayList<Delivery> all() {
+        return this.where("id", ">=", "1");
+    }
+
     /**
      * Create Delivery
      *

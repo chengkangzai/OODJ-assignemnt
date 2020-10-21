@@ -14,7 +14,7 @@ public interface Queryable {
     /**
      *
      * Model should be queryable by where operator
-     * 
+     *
      * @param type
      * @param queryOperator
      * @param queryString
@@ -24,11 +24,19 @@ public interface Queryable {
 
     /**
      *
-     * Model should be queryable by where 
-     * 
+     * Model should be queryable by where
+     *
      * @param type
      * @param queryString
      * @return
      */
     public Object where(String type, String queryString);
+
+    /**
+     *
+     * Model should be get All
+     * 
+     * @return
+     */
+    public Object all();
 }

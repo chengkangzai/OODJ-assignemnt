@@ -8,6 +8,7 @@ package Model.User;
 import Helper.Connection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.DatatypeConverter;
 
@@ -151,6 +152,7 @@ public class User extends Model {
      *
      * @return
      */
+    @Override
     public boolean create() {
         if (!(valid.isValidEmail(email))) {
             System.out.println("Ivalid Email");
@@ -175,13 +177,8 @@ public class User extends Model {
             }
         }
 
-        String hashedPassword = getHash(this.password.getBytes());
-        int ID = reader.getNewID();
-        String userRole = isAdmin() ? "admin" : "delivery";
-        dbLine.add(ID + "," + this.name + "," + hashedPassword + "," + this.email + "," + userRole);
-
+        dbLine.add(this.format(true));
         return reader.reWrite(reader.listToString(dbLine));
-
     }
 
     /**
@@ -190,6 +187,7 @@ public class User extends Model {
      *
      * @return
      */
+    @Override
     public boolean update() {
         if (!(valid.isValidEmail(email))) {
             System.out.println("Ivalid Email");
@@ -205,19 +203,7 @@ public class User extends Model {
         }
 
         List<String> dbLine = reader.getFromFile();
-        for (int i = 1; i < dbLine.size(); i++) {
-            String split[] = dbLine.get(i).split(",");
-            if (split[3].equals(email)) {
-                this.id = Integer.valueOf(split[0]);
-            }
-        }
-
-        String hashedPassword = getHash(this.password.getBytes());
-        int ID = where("email", email).id;
-        String userRole = isAdmin() ? "admin" : "delivery";
-        String line = ID + "," + this.name + "," + hashedPassword + "," + this.email + "," + userRole;
-        dbLine.set(this.id, line);
-
+        dbLine.set(this.id, this.format(false));
         return reader.reWrite(reader.listToString(dbLine));
     }
 
@@ -250,8 +236,9 @@ public class User extends Model {
                 break;
         }
         List<String> fromFile = reader.getFromFile();
-        for (String element : fromFile) {
-            String[] split = element.split(",");
+
+        for (int j = 1; j < fromFile.size(); j++) {
+            String[] split = fromFile.get(j).split(",");
             if (split[i].equals(queryString)) {
                 return new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0]));
             }
@@ -271,8 +258,33 @@ public class User extends Model {
      * @return
      */
     @Override
-    public User where(String type, String queryOperator, String queryString) {
-        return this.where(type, queryString);
+    public ArrayList<User> where(String type, String queryOperator, String queryString) {
+        int i = 0;
+        switch (type.toLowerCase()) {
+            case "id":
+                i = 0;
+                break;
+            default:
+                System.out.println("Type not specificied or supported");
+                break;
+        }
+
+        List<String> fromFile = reader.getFromFile();
+        ArrayList<User> temp = new ArrayList<>();
+
+        for (int j = 1; j < fromFile.size(); j++) {
+            String[] split = fromFile.get(j).split(",");
+            if (split[i].equals(queryString)) {
+                temp.add(new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0])));
+            }
+        }
+
+        return temp;
+    }
+
+    @Override
+    public ArrayList<User> all() {
+        return this.where("id", ">=", "1");
     }
 
     /**
@@ -294,6 +306,12 @@ public class User extends Model {
         }
         System.out.println("STH wrong la brop");
         return null;
+    }
+
+    private String format(boolean isCreating) {
+        return isCreating
+                ? reader.getNewID() + "," + this.name + "," + getHash(this.password.getBytes()) + "," + this.email + "," + this.role
+                : this.id + "," + this.name + "," + getHash(this.password.getBytes()) + "," + this.email + "," + this.role;
     }
 
     /**
@@ -319,13 +337,13 @@ public class User extends Model {
     }
 
     public static void main(String args[]) {
-        User u = new User("pycck@hotmail.com", "P@$$w0rd");
-        u.setName("cck");
-        u.setRole("admin");
-        System.out.println(u.getPassword());
-        System.out.println(u.getEmail());
-        System.out.println(u.getName());
-        u.create();
+//        User u = new User("pycck@hotmail.com", "P@$$w0rd");
+//        u.setName("cck");
+//        u.setRole("admin");
+//        System.out.println(u.getPassword());
+//        System.out.println(u.getEmail());
+//        System.out.println(u.getName());
+//        u.create();
 
 //        User u = new User("Ian@email.com", "password");
 ////        u.setPassword("password");

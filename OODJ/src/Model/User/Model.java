@@ -14,7 +14,7 @@ import Model.Interface.Validable;
  *
  * @author CCK
  */
-abstract public class Model implements Creatable, Updatable, Queryable, Validable {
+abstract public class Model implements Queryable, Creatable, Updatable, Validable {
 
     /**
      *
