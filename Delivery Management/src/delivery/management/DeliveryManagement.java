@@ -16,7 +16,7 @@ public class DeliveryManagement {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        DeliveryConsole dc = new DeliveryConsole();
+        BookConsole dc = new BookConsole();
         dc.start();
     }
     

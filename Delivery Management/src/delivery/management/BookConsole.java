@@ -12,21 +12,21 @@ import java.util.Scanner;
  * @author ashwe
  */
 
-public class DeliveryConsole {
-     private DeliveryManager dm;
+public class BookConsole {
+     private BookManager dm;
     private Scanner sc;
     
-    public DeliveryConsole() {
+    public BookConsole() {
         this.sc = new Scanner(System.in);
-        this.dm = new DeliveryManager();
+        this.dm = new BookManager();
         
     }
     
     private int menu(){
             System.out.println("---Delivery Menu---");
-            System.out.println("1. Add delivery");
-            System.out.println("2.Show all delivery");
-            System.out.println("3. Remove delivery");
+            System.out.println("1. Add Book");
+            System.out.println("2.Show all Show");
+            System.out.println("3. Search Book");
             System.out.println("0. Exit");
             int choice = readInt(0, 3);   
             return choice;
@@ -40,13 +40,13 @@ public class DeliveryConsole {
                 System.exit(0);
                 break;
             case 1: 
-                addDelivery();
+                addBook();
                 break;
             case 2:
                 showAll();
                 break;
             case 3:
-                removeDelivery();
+                searchBook();
                 break;
             default:
                 throw new AssertionError();
@@ -64,8 +64,7 @@ public class DeliveryConsole {
                 if (choice >= min && choice <= max) {
                     break;
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (NumberFormatException e) {
             }
         }
         return choice;
@@ -95,8 +94,8 @@ public class DeliveryConsole {
       String name = sc.nextLine();
       System.out.println("Enter delivery price");
       float price = readFloat(0, Float.MAX_VALUE);
-      Delivery d = new Delivery(id, name, price);
-      this.dm.addDelivery(d);
+      Book d = new Book(id, name, price);
+      this.dm.addBook(d);
       
     }
 
@@ -104,7 +103,7 @@ public class DeliveryConsole {
       System.out.println("--All delivery--");
       System.out.println("ID\tName\tPrice");
       for (int i = 0; i < this.dm.count(); i++){
-          Delivery d = this.dm.getDelivery(i);
+          Book d = this.dm.getBook(i);
             System.out.println(d.getId()+"\t"+d.getName()+"\t"+d.getPrice());
       }
     }
@@ -118,6 +117,14 @@ public class DeliveryConsole {
         }else{
             System.out.println("Delivery not found");
         }
+    }
+
+    private void searchBook() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void addBook() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
 

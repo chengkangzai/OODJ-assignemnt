@@ -9,7 +9,7 @@ import Helper.Connection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import javax.xml.bind.DatatypeConverter;
+//import javax.xml.bind.DatatypeConverter;
 
 /**
  *
@@ -284,11 +284,12 @@ public class User extends Model {
      */
     @Override
     public String getHash(byte[] inputBytes) {
+
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            md.update(inputBytes);
-            byte[] digestedByte = md.digest();
-            return DatatypeConverter.printHexBinary(digestedByte).toLowerCase();
+            MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+            crypt.reset();
+            crypt.update(inputBytes);
+            return crypt.digest().toString();
         } catch (NoSuchAlgorithmException e) {
             System.out.println(e.getMessage());
         }

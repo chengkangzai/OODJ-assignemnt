@@ -12,30 +12,31 @@ import java.util.List;
  *
  * @author ashwe
  */
-public class DeliveryManager {
-    private List<Delivery> listofDelivery;
+public class BookManager {
+    private List<Book> listofDelivery;
+    private final ArrayList<Object> listofBook;
     
-    public DeliveryManager() {
-        this.listofDelivery = new ArrayList<>();
+    public BookManager() {
+        this.listofBook = new ArrayList<>();
     }
     
-    public int addDelivery(Delivery d){
+    public int addBook(Book d){
         this.listofDelivery.add(d);
         return this.listofDelivery.size();
     
 }
     
     public int count () {
-        return this.listofDelivery.size();
+        return this.listofBook.size();
         
     }
     
-    public Delivery getDelivery(int index) {
+    public Book getBook(int index) {
         if (index < 0 || index >= count()){
             return null;
         
         }
-        return this.listofDelivery.get (index);
+        return (Book) this.listofBook.get (index);
 
     }
 
@@ -53,4 +54,5 @@ public class DeliveryManager {
        }
        return false;
     }
+
 }
