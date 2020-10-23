@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Model.Report;
 
 import Model.Order.Order;
@@ -13,17 +12,19 @@ import Model.Order.Order;
  * @author CCK
  */
 public class Report {
-    
+
     public boolean getOrderReport() {
-        Order o = new Order();
+        //TODO
         return false;
     }
-    
+
     public boolean getFeedbackReport() {
+        //TODO
         return false;
     }
-    
+
     public boolean getDeliveryReport() {
+        //TODO
         return false;
     }
 }
