@@ -9,7 +9,6 @@ import Helper.Connection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-//import javax.xml.bind.DatatypeConverter;
 
 /**
  *
