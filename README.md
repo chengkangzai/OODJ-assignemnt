@@ -7,8 +7,8 @@ All the 4 pillar OOP concept is implemented
 Interface for abstraction is also implemented to shows extra knowledge 
 
 ## Prerequisition 
-- Java Development Kit 8
-- NetBeans IDE 8.2
+- Java Development Kit 8 or above
+- NetBeans IDE 8.2 or above
 
 
 ## Feature
