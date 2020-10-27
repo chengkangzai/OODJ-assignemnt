@@ -9,8 +9,9 @@ import Helper.Connection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import javax.xml.bind.DatatypeConverter;
+import static sun.security.krb5.Confounder.bytes;
 
 /**
  *
@@ -289,7 +290,7 @@ public class User extends Model {
 
     /**
      * Get the hashed value of the input Bytes
-     * https://www.tutorialspoint.com/java_cryptography/java_cryptography_message_digest.htm
+     * https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
      *
      * @param inputBytes
      * @return
@@ -299,8 +300,13 @@ public class User extends Model {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(inputBytes);
-            byte[] digestedByte = md.digest();
-            return DatatypeConverter.printHexBinary(digestedByte).toLowerCase();
+            byte[] bytes = md.digest();
+            StringBuilder passwordInString = new StringBuilder();
+            for (int i = 0; i < bytes.length; i++) {
+                passwordInString.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            //Get complete hashed password in hex format
+            return passwordInString.toString();
         } catch (NoSuchAlgorithmException e) {
             System.out.println(e.getMessage());
         }
