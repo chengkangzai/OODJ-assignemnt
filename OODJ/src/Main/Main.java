@@ -5,8 +5,7 @@
  */
 package Main;
 
-import Model.Delivery.Delivery;
-import Model.Order.Order;
+import GUI.Login;
 
 /**
  *
@@ -18,13 +17,8 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Order o = new Order();
-        o.create();
-        Delivery d = new Delivery();
-        d.create();
-        
-        
-        
+        new Login().setVisible(true);
+
 //        Date test = new Date();
 //        LocalTime myObj = LocalTime.now();
 //        System.out.println(myObj);
@@ -48,5 +42,5 @@ public class Main {
 //        System.out.println(admin1.isAdmin());
 //        System.out.println(admin1.isAuthenticated());
     }
-
+    
 }
