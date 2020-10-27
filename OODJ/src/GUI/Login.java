@@ -133,7 +133,9 @@ public class Login extends javax.swing.JFrame {
         }
         
         if (proceed) {
-            User u = new User(email, password);
+            User u = new User();
+            u.setEmail(email);
+            u.setPassword(password);
             if (u.login()) {
                 if (u.isAdmin()) {
                     help.showMessageBox("You are admin");
