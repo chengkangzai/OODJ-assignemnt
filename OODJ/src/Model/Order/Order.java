@@ -32,7 +32,7 @@ public class Order implements Creatable, Updatable, Validable, Deletable, Querya
 
     public Order() {
     }
-
+//No Set ID for the sake of encapsulation !
     public int getID() {
         return ID;
     }
@@ -286,7 +286,7 @@ public class Order implements Creatable, Updatable, Validable, Deletable, Querya
     @Override
     public boolean update() {
         List<String> fromFile = reader.getFromFile();
-        fromFile.set(this.getID(), this.format(true));
+        fromFile.set(this.getID(), this.format(false));
         return reader.reWrite(reader.listToString(fromFile));
     }
 

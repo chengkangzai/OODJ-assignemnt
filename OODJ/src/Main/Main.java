@@ -6,6 +6,7 @@
 package Main;
 
 import GUI.Login;
+import Model.User.User;
 
 /**
  *
@@ -19,15 +20,21 @@ public class Main {
     public static void main(String[] args) {
         new Login().setVisible(true);
 
+        //password
+        //P@$$w0rd
+        //admin@email.com
+        //staff@email.com
+        
+        
 //        Date test = new Date();
 //        LocalTime myObj = LocalTime.now();
 //        System.out.println(myObj);
-//        User u = new User();
-//        u.setEmail("admin@email.com");
-//        u.setName("admin");
-//        u.setPassword("P@$$w0rd");
-//        u.setRole("admin");
-//        System.out.println(u.create());
+        User u = new User();
+        u.setEmail("admin@email.com");
+        u.setName("admin");
+        u.setPassword("P@$$w0rd");
+        u.setRole("admin");
+        System.out.println(u.create());
 //        Admin admin = new Admin(100.00, new User().whereEqual("id", "1"));
 //        User u = new User();
 //        u.setEmail("staff@email.com");
@@ -42,5 +49,5 @@ public class Main {
 //        System.out.println(admin1.isAdmin());
 //        System.out.println(admin1.isAuthenticated());
     }
-    
+
 }
