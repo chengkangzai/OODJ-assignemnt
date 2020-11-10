@@ -5,6 +5,8 @@
  */
 package GUI.Admin;
 
+import Model.User.DeliveryStaff;
+import Model.User.ManagingStaff;
 import Model.User.User;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -28,14 +30,46 @@ public class StaffDirectory extends javax.swing.JFrame {
         ArrayList<User> users = new User().all();
 
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        for (User user : users) {
-            model.addRow(new Object[]{
-                user.getId(),
-                user.getName(),
-                user.getEmail(),
-                user.getRole()
-            });
-        }
+        //lamda expression... cool right hahah
+        users.forEach((user) -> {
+            switch (user.getRole()) {
+                case "admin": {
+                    ManagingStaff staff = new ManagingStaff().where("user_id", String.valueOf(user.getId()));
+                    model.addRow(new Object[]{
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getRole(),
+                        staff.getSalary(),
+                        staff.getPosition()
+                    });
+                    break;
+                }
+                case "delivery": {
+                    DeliveryStaff staff = new DeliveryStaff().where("user_id", String.valueOf(user.getId()));
+                    model.addRow(new Object[]{
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getRole(),
+                        staff.getSalary(),
+                        "",
+                        staff.getCarPlate(),
+                        staff.getPhoneNumber()
+                    });
+                    break;
+                }
+                default:
+                    //Just Incase
+                    model.addRow(new Object[]{
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getRole()
+                    });
+                    break;
+            }
+        });
     }
 
     /**
@@ -59,14 +93,14 @@ public class StaffDirectory extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Name", "Email", "Role", "Salary", "Car Plate", "Phone Number"
+                "ID", "Name", "Email", "Role", "Salary", "Position", "Car Plate", "Phone Number"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, true, true, true, true
+                true, false, false, true, true, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -131,11 +165,64 @@ public class StaffDirectory extends javax.swing.JFrame {
         if (user.resetPassword()) {
             JOptionPane.showMessageDialog(null, "Password Reseted !");
         }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        System.out.println("Hi");
+        boolean status = true;
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String role = model.getValueAt(i, 3).toString();
+            String userId = model.getValueAt(i, 0).toString();
+
+            User u = new User().where("id", userId);
+            String name = model.getValueAt(i, 1).toString();
+            String email = model.getValueAt(i, 2).toString();
+            u.setEmail(email);
+            u.setName(name);
+            u.setRole(role);
+            if (!u.update()) {
+                status = false;
+            }
+
+            String salary = model.getValueAt(i, 4).toString();
+            switch (role) {
+                case "admin":
+                    ManagingStaff mStaff = new ManagingStaff().where("user_id", userId);
+                    String position = model.getValueAt(i, 5).toString();
+                    System.out.println(mStaff.getPosition());
+                    System.out.println(mStaff.getSalary());
+                    mStaff.setSalary(Double.valueOf(salary));
+                    mStaff.setPosition(position);
+                    mStaff.update();
+                    if (!mStaff.update()) {
+                        status = false;
+                    }
+                    break;
+                case "delivery":
+                    DeliveryStaff dStaff = new DeliveryStaff().where("user_id", userId);
+                    String carPlate = model.getValueAt(i, 6).toString();
+                    String phoneNumber = model.getValueAt(i, 7).toString();
+                    dStaff.setCarPlate(carPlate);
+                    dStaff.setPhoneNumber(phoneNumber);
+                    dStaff.setSalary(Double.valueOf(salary));
+                    dStaff.update();
+                    if (!dStaff.update()) {
+                        status = false;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        if (status) {
+            JOptionPane.showMessageDialog(null, "Udpated");
+        } else {
+            JOptionPane.showMessageDialog(null, "No");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

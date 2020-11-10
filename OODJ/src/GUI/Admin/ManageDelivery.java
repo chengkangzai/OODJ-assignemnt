@@ -325,7 +325,7 @@ public class ManageDelivery extends javax.swing.JFrame {
             LocalDateTime sendOn = LocalDateTime.parse(model.getValueAt(i, 5).toString());
             String orderid = model.getValueAt(i, 6).toString();
 
-            Order order = (orderid.isEmpty() || orderid.isBlank()) ? new Order() : new Order().where("id", orderid);
+            Order order = (orderid.isEmpty()) ? new Order() : new Order().where("id", orderid);
 
 //Normally i will validate it before i create/update
             Delivery delivery = new Delivery(ID, weight, address, deliveryStatus, deliveryStaff, sendOn, order);
@@ -334,8 +334,16 @@ public class ManageDelivery extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "There is some problem during process" + delivery.getID());
                 status = false;
             }
-            
+
         }
+        if (status) {
+            JOptionPane.showMessageDialog(null, "Updated !");
+        } else {
+            JOptionPane.showMessageDialog(null, "Error !");
+        }
+        
+        new ManageDelivery().setVisible(true);
+        this.dispose();
 
     }//GEN-LAST:event_jButton2ActionPerformed
 

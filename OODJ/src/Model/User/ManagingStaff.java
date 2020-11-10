@@ -6,6 +6,8 @@
 package Model.User;
 
 import Helper.Connection;
+import Helper.Validator;
+import java.util.List;
 
 /**
  *
@@ -18,6 +20,7 @@ public class ManagingStaff extends User {
     private String Position;
 
     protected final Connection con = new Connection("users/ManagingStaff");
+    protected final Validator valid = new Validator();
 
     public ManagingStaff() {
     }
@@ -26,8 +29,9 @@ public class ManagingStaff extends User {
         this.Salary = Salary;
     }
 
-    public ManagingStaff(Double Salary, String Position, User user) {
+    public ManagingStaff(int ID, String Position, Double Salary, User user) {
         super(user.getId());
+        this.ID = ID;
         this.Salary = Salary;
         this.Position = Position;
     }
@@ -50,8 +54,78 @@ public class ManagingStaff extends User {
 
     @Override
     public ManagingStaff where(String type, String queryString) {
-        //TODO
-        return new ManagingStaff();
+
+        int i = 0;
+        switch (type.toLowerCase()) {
+            case "id":
+                i = 0;
+                break;
+            case "position":
+                i = 1;
+                break;
+            case "salary":
+                i = 2;
+                break;
+            case "user_id":
+                i = 3;
+                break;
+            default:
+                System.out.println("Type not specificied");
+                break;
+        }
+
+        List<String> fromFile = con.getFromFile();
+        for (int j = 1; j < fromFile.size(); j++) {
+            String[] split = fromFile.get(j).split(",");
+            if (split[i].equals(String.valueOf(queryString))) {
+                return new ManagingStaff(Integer.valueOf(split[0]), split[1], Double.valueOf(split[2]),
+                        new User().where("id", split[3])
+                );
+            }
+
+        }
+        return null;
+    }
+
+    @Override
+    public boolean create() {
+        if (!valid.isValidString(this.Position)) {
+            return false;
+        }
+
+        List<String> fromFile = con.getFromFile();
+        fromFile.add(this.format(true));
+        return con.reWrite(con.listToString(fromFile));
+    }
+
+    @Override
+    public boolean update() {
+        if (!valid.isValidString(this.Position)) {
+            return false;
+        }
+        List<String> fromFile = con.getFromFile();
+        fromFile.set(getIndex(), this.format(false));
+        return con.reWrite(con.listToString(fromFile));
+    }
+
+    private int getIndex() {
+        List<String> fromFile = con.getFromFile();
+        int userID = super.getId();
+        for (int i = 0; i < fromFile.size(); i++) {
+            if (fromFile.get(i).split(",")[3].equals(String.valueOf(userID))) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    private String format(boolean isCreating) {
+        if (!valid.isValidString(this.getPosition())) {
+            return null;
+        }
+        return isCreating
+                ? con.getNewID() + "," + this.getPosition() + "," + this.getSalary() + "," + super.getId()
+                : this.ID + "," + this.getPosition() + "," + this.getSalary() + "," + super.getId();
     }
 
     @Override
@@ -62,5 +136,9 @@ public class ManagingStaff extends User {
     @Override
     public boolean isAuthenticated() {
         return true;
+    }
+
+    public static void main(String args[]) {
+
     }
 }

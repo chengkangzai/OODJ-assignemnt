@@ -247,7 +247,7 @@ public class ManageOrder extends javax.swing.JFrame implements Validable {
         //Only Price Field is needed
         //Check if the paid checkbox is checked 
         String price = txtPrice.getText();
-        if (price.isBlank() || price.isEmpty()) {
+        if (price.isEmpty()) {
             //validation
             JOptionPane.showMessageDialog(null, "Fk u please fill in the price");
         } else {

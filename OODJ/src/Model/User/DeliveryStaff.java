@@ -96,7 +96,7 @@ public class DeliveryStaff extends User {
         }
 
         List<String> fromFile = con.getFromFile();
-        for (int j = 0; j < fromFile.size(); j++) {
+        for (int j = 1; j < fromFile.size(); j++) {
             String[] split = fromFile.get(j).split(",");
             if (split[i].equals(String.valueOf(queryString))) {
                 return new DeliveryStaff(Integer.valueOf(split[0]), split[1], split[2], Double.valueOf(split[3]),
@@ -132,20 +132,20 @@ public class DeliveryStaff extends User {
 
     @Override
     public boolean update() {
-        if (!valid.isValidString(carPlate)) {
-            return false;
-        }
-        if (!valid.isValidString(this.phoneNumber)) {
-            return false;
-        }
-        if (this.salary <= 0) {
-            return false;
-        }
+//        if (!valid.isValidString(carPlate)) {
+//            return false;
+//        }
+//        if (!valid.isValidString(this.phoneNumber)) {
+//            return false;
+//        }
+//        if (this.salary <= 0) {
+//            return false;
+//        }
 
         List<String> fromFile = con.getFromFile();
         fromFile.set(getIndex(), this.format(false));
 
-        return false;
+        return con.reWrite(con.listToString(fromFile));
     }
 
     private String format(boolean isCreating) {
@@ -177,6 +177,8 @@ public class DeliveryStaff extends User {
 
     public static void main(String[] args) {
         DeliveryStaff staff = new DeliveryStaff().where("user_id", "2");
-        System.out.println(staff.getName());
+        staff.setSalary(2000.00);
+        System.out.println(staff.update());
+        
     }
 }
