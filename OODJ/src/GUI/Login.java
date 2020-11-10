@@ -6,7 +6,8 @@
 package GUI;
 
 import GUI.Admin.Admin;
-import GUI.Delivery.Delivery;
+import GUI.Admin.ManageDelivery;
+
 import Helper.GUIHelper;
 import Helper.Validator;
 import Model.User.User;
@@ -42,6 +43,7 @@ public class Login extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 153, 153));
@@ -74,6 +76,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Feedback");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -86,7 +90,7 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(303, 303, 303)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 502, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -99,6 +103,10 @@ public class Login extends javax.swing.JFrame {
                                     .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
                                     .addComponent(txtPassword))))))
                 .addContainerGap(300, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(113, 113, 113))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,7 +123,9 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(160, 160, 160)
                 .addComponent(btnLogin)
-                .addGap(146, 146, 146))
+                .addGap(33, 33, 33)
+                .addComponent(jButton1)
+                .addGap(91, 91, 91))
         );
 
         pack();
@@ -150,7 +160,8 @@ public class Login extends javax.swing.JFrame {
                     this.dispose();
                 }else{
                     help.showMessageBox("You are not admin");
-                    new Delivery().setVisible(true);
+                    //TODO
+                    new ManageDelivery().setVisible(true);
                     //Bring to Delivery Panel
                 }
             }else{
@@ -202,6 +213,7 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

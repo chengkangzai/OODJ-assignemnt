@@ -19,6 +19,7 @@ import static sun.security.krb5.Confounder.bytes;
  */
 public class User extends Model {
 
+    private static final String DEFAULT_PASSWORD = "P@$$w0rd";
     private int id;
     private String name;
     private String email;
@@ -285,7 +286,15 @@ public class User extends Model {
 
     @Override
     public ArrayList<User> all() {
-        return this.where("id", ">=", "1");
+        List<String> fromFile = reader.getFromFile();
+        ArrayList<User> temp = new ArrayList<>();
+
+        for (int j = 1; j < fromFile.size(); j++) {
+            String[] split = fromFile.get(j).split(",");
+            temp.add(new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0])));
+        }
+
+        return temp;
     }
 
     /**
@@ -340,6 +349,11 @@ public class User extends Model {
     @Override
     public boolean isAdmin() {
         return "admin".equals(this.role);
+    }
+
+    public boolean resetPassword() {
+        this.setPassword(DEFAULT_PASSWORD);
+        return this.update();
     }
 
     public static void main(String args[]) {

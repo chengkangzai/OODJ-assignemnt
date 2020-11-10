@@ -3,7 +3,6 @@ package Model.Order;
 import Model.Interface.Creatable;
 import Model.Interface.Updatable;
 import Model.Interface.Queryable;
-import Model.Interface.Deletable;
 import Model.Interface.Validable;
 import Helper.Connection;
 import java.time.LocalDateTime;
@@ -14,7 +13,7 @@ import java.util.List;
  *
  * @author CCK
  */
-public class Order implements Creatable, Updatable, Validable, Deletable, Queryable {
+public class Order implements Creatable, Updatable, Validable, Queryable {
 
     private int ID;
     private Double price;
@@ -33,6 +32,7 @@ public class Order implements Creatable, Updatable, Validable, Deletable, Querya
     public Order() {
     }
 //No Set ID for the sake of encapsulation !
+
     public int getID() {
         return ID;
     }
@@ -69,6 +69,7 @@ public class Order implements Creatable, Updatable, Validable, Deletable, Querya
      */
     @Override
     public Order where(String type, String queryString) {
+        System.out.println("Hello");
         int i = 0;
         switch (type.toLowerCase()) {
             case "id":
@@ -88,8 +89,8 @@ public class Order implements Creatable, Updatable, Validable, Deletable, Querya
                 break;
         }
         List<String> fromFile = reader.getFromFile();
-        for (String element : fromFile) {
-            String[] split = element.split(",");
+        for (int j = 1; j < fromFile.size(); j++) {
+            String[] split = fromFile.get(j).split(",");
             if (split[i].equals(queryString)) {
                 return new Order(
                         Integer.valueOf(split[0]),
@@ -290,23 +291,10 @@ public class Order implements Creatable, Updatable, Validable, Deletable, Querya
         return reader.reWrite(reader.listToString(fromFile));
     }
 
-    /**
-     *
-     * Delete Order
-     *
-     * @return
-     */
-    @Override
-    public boolean delete() {
-        List<String> fromFile = reader.getFromFile();
-        fromFile.remove(this.getID());
-        return reader.reWrite(reader.listToString(fromFile));
-    }
-
     private String format(boolean isCreating) {
         return isCreating
-                ? reader.getNewID() + "," + this.price + "," + this.createdAt + "," + this.createdAt
-                : this.getID() + "," + this.price + "," + this.createdAt + "," + this.createdAt;
+                ? reader.getNewID() + "," + this.price + "," + this.createdAt + "," + this.payAt
+                : this.getID() + "," + this.price + "," + this.createdAt + "," + this.payAt;
     }
 
     public static void main(String[] args) {
