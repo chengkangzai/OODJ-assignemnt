@@ -1,4 +1,4 @@
 ID,Name,Password,Email,Role
-1,adminName,6ad157c7c2c0e738047970e9b2f4169efbce612d178695ec76120a0691b0012e,admin@email.com,admin
-2,staffName,8d84657499d1d0bc0819b3ec1c252e0ba77d2a776a53ca24db7b3697dd88b05c,staff@email.com,delivery
-3,cck,8d84657499d1d0bc0819b3ec1c252e0ba77d2a776a53ca24db7b3697dd88b05c,pycck@hotmail.com,admin
+1,adminName,1996c73058e3b7c65908d042d08c2fad05f706f09b9053d5fc465667f123f00c,admin@email.com,admin
+2,staffName,3cebbd9da7b562eb78901b42634f496e876f9a6438c5c63030172eb605e6e2fb,staff@email.com,delivery
+3,cck,3cebbd9da7b562eb78901b42634f496e876f9a6438c5c63030172eb605e6e2fb,pycck@hotmail.com,admin
