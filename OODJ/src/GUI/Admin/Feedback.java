@@ -30,7 +30,7 @@ public class Feedback extends javax.swing.JFrame {
             int ID = feedback.getID(),
     
            
-        
+                    }
     }
     /**
      * This method is called from within the constructor to initialize the form.
