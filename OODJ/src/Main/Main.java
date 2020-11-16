@@ -6,7 +6,6 @@
 package Main;
 
 import GUI.Login;
-import Model.Report.Report;
 
 /**
  *
@@ -18,12 +17,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        new Login().setVisible(true);
-        Report report = new Report();
-        report.getOrderReport();
-        report.getDeliveryReport();
-        report.getFeedbackReport();
-        
+        new Login().setVisible(true);
     }
 
 }
