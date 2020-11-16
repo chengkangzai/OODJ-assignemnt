@@ -1,5 +1,5 @@
 ID,Name,Password,Email,Role
-1,staff,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8,staff@email.com,delivery
+1,staff,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8,staff@email.com,admin
 2,staffName,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8,staffName@email.com,delivery
 3,cck,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8,pycck@hotmail.com,admin
 4,name,5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8,name@name.name,delivery
