@@ -6,10 +6,6 @@
 package Main;
 
 import GUI.Login;
-import Model.Order.Order;
-import Model.User.User;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 /**
  *
@@ -21,7 +17,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        new Login().setVisible(true);
+        new Login().setVisible(true);
 
 //        ArrayList<User> users = new User().all();
 //        for (User user : users) {
@@ -52,13 +48,13 @@ public class Main {
 //            System.out.println(order.getPrice());
 //        }
 
-        User u = new User().where("id", "1");
-        u.setEmail("staff@email.com");
-        u.setName("staff");
-        u.setPassword("P@$$w0rd");
-        u.setRole(u.DELIVERY_ROLE);
-        System.out.println(u.update());
-        System.out.println(u.login());
+//        User u = new User().where("id", "1");
+//        u.setEmail("staff@email.com");
+//        u.setName("staff");
+//        u.setPassword("P@$$w0rd");
+//        u.setRole(u.DELIVERY_ROLE);
+//        System.out.println(u.update());
+//        System.out.println(u.login());
         
 //        admin.setName("Ian6");
 //        System.out.println(admin.create());
