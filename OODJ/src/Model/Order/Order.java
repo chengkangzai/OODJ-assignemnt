@@ -20,7 +20,7 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
     private LocalDateTime createdAt;
     private LocalDateTime payAt;
 
-    private final static Connection reader = new Connection("orders");
+    private final  Connection reader = new Connection("orders");
 
     public Order(int ID, Double price, LocalDateTime createdAt, LocalDateTime payAt) {
         this.ID = ID;
@@ -60,6 +60,12 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
     public void setPayAt(LocalDateTime payAt) {
         this.payAt = payAt;
     }
+
+    public  Connection getReader() {
+        return reader;
+    }
+    
+    
 
     /**
      *

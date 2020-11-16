@@ -12,11 +12,13 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SEM%201/OODJ/OODJ-assignemnt/OODJ/src/GUI/Admin/ManageOrder.java</file>
-            <file>file:/D:/SEM%201/OODJ/OODJ-assignemnt/OODJ/src/GUI/Admin/StaffDirectory.java</file>
-            <file>file:/D:/SEM%201/OODJ/OODJ-assignemnt/OODJ/src/GUI/Admin/CreateManage.java</file>
-            <file>file:/D:/SEM%201/OODJ/OODJ-assignemnt/OODJ/src/GUI/Admin/StaffProfile.java</file>
-            <file>file:/D:/SEM%201/OODJ/OODJ-assignemnt/OODJ/src/GUI/Admin/CreateDelivery.java</file>
+            <file>file:/C:/Users/CCK/Documents/OODJ-Assignment/OODJ/src/Model/User/User.java</file>
+            <file>file:/C:/Users/CCK/Documents/OODJ-Assignment/OODJ/db/users/users.csv</file>
+            <file>file:/C:/Users/CCK/Documents/OODJ-Assignment/OODJ/src/GUI/User/StaffDirectory.java</file>
+            <file>file:/C:/Users/CCK/Documents/OODJ-Assignment/OODJ/src/Model/Report/Report.java</file>
+            <file>file:/C:/Users/CCK/Documents/OODJ-Assignment/OODJ/src/Main/Main.java</file>
+            <file>file:/C:/Users/CCK/Documents/OODJ-Assignment/OODJ/src/GUI/User/StaffProfile.java</file>
+            <file>file:/C:/Users/CCK/Documents/OODJ-Assignment/OODJ/src/GUI/Login.java</file>
         </group>
     </open-files>
 </project-private>

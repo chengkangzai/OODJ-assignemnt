@@ -52,6 +52,12 @@ public class Feedback implements Creatable, Deletable, Validable, Queryable {
         this.feedback = feedback;
     }
 
+    public Connection getReader() {
+        return reader;
+    }
+    
+    
+
     /**
      *
      * @return

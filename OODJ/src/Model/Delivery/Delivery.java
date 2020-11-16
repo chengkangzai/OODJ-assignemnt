@@ -98,6 +98,11 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
         this.order = order;
     }
 
+    public Connection getReader() {
+        return reader;
+    }
+
+    
     /**
      * Get certain Delivery by using where statement like laravel
      *
