@@ -5,6 +5,8 @@
  */
 package GUI.Admin;
 
+import GUI.User.StaffDirectory;
+
 /**
  *
  * @author CCK
@@ -163,14 +165,14 @@ public class Admin extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-       ManageOrder ManageOrder= new ManageOrder();
-       ManageOrder.setVisible(true);
+       new ManageOrder().setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-         StaffDirectory StaffDirectory= new StaffDirectory();
-         StaffDirectory.setVisible(true);
+         new StaffDirectory().setVisible(true);
+         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

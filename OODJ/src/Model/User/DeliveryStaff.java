@@ -18,6 +18,7 @@ public class DeliveryStaff extends User {
     private String phoneNumber;
     private String carPlate;
     private Double salary;
+    private User user;
 
     protected Connection con = new Connection("users/DeliveryStaff");
 
@@ -71,6 +72,14 @@ public class DeliveryStaff extends User {
         this.ID = ID;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public DeliveryStaff where(String type, String queryString) {
         int i = 0;
@@ -119,28 +128,24 @@ public class DeliveryStaff extends User {
         if (this.salary <= 0) {
             return false;
         }
-
         List<String> fromFile = con.getFromFile();
 
-        if (getIndex() == 0) {
-            fromFile.add(this.format(true));
-            return con.reWrite(con.listToString(fromFile));
-        }
+        fromFile.add(this.format(true));
+        return con.reWrite(con.listToString(fromFile));
 
-        return false;
     }
 
     @Override
     public boolean update() {
-//        if (!valid.isValidString(carPlate)) {
-//            return false;
-//        }
-//        if (!valid.isValidString(this.phoneNumber)) {
-//            return false;
-//        }
-//        if (this.salary <= 0) {
-//            return false;
-//        }
+        if (!valid.isValidString(carPlate)) {
+            return false;
+        }
+        if (!valid.isValidString(this.phoneNumber)) {
+            return false;
+        }
+        if (this.salary <= 0) {
+            return false;
+        }
 
         List<String> fromFile = con.getFromFile();
         fromFile.set(getIndex(), this.format(false));
@@ -150,8 +155,8 @@ public class DeliveryStaff extends User {
 
     private String format(boolean isCreating) {
         return (isCreating)
-                ? con.getNewID() + "," + this.phoneNumber + "," + this.carPlate + "," + this.salary + "," + super.getId()
-                : this.ID + "," + this.phoneNumber + "," + this.carPlate + "," + this.salary + "," + super.getId();
+                ? con.getNewID() + "," + this.phoneNumber + "," + this.carPlate + "," + this.salary + "," + this.user.getId()
+                : this.ID + "," + this.phoneNumber + "," + this.carPlate + "," + this.salary + "," + this.user.getId();
     }
 
     private int getIndex() {
@@ -179,6 +184,6 @@ public class DeliveryStaff extends User {
         DeliveryStaff staff = new DeliveryStaff().where("user_id", "2");
         staff.setSalary(2000.00);
         System.out.println(staff.update());
-        
+
     }
 }

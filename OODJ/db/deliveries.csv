@@ -1,5 +1,8 @@
 ID,Weight,Address,status,sendBy,sendOn,order_id
 1,2.0,1| Pasar Besar Gombak| Jln Cheras| Batu 3 1/2| 56000| Wilayah Persekutuan,pending,0,2020-11-10T15:28:44.535412800,0
 2,12.0,1| Pasar Besar Cheras| Jln Cheras| Batu 3 1/2| 56000| Wilayah Persekutuan,pending,0,-999999999-01-01T00:00,0
-3,69.0,1| Pasar Besar Cheras| Jln Cheras| Batu 3 1/2| 56000| Wilayah Persekutuan,pending,0,-999999999-01-01T00:00,0
-4,47.0,1| Pasar Besar Cheras| Jln Cheras| Batu 3 1/2| 56000| Wilayah Persekutuan,pending,2,-999999999-01-01T00:00,1
+3,69.0,1| Pasar Besar Cheras| Jln Cheras| Batu 3 1/2| 56000| Wilayah Persekutuan,delivered,2,2020-11-15T21:50:27.157,0
+4,47.0,1| Pasar Besar Cheras| Jln Cheras| Batu 3 1/2| 56000| Wilayah Persekutuan,delivered,2,2020-11-15T21:50:24.571,1
+5,200.0,,delivered,2,2020-11-15T21:57:08.270,2
+6,100.0,asdas,pending,0,2020-11-15T21:56:43.730,2
+7,100.0,asd,pending,0,2020-11-15T21:57:19.861,1

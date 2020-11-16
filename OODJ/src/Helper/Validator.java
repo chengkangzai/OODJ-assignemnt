@@ -5,6 +5,7 @@
  */
 package Helper;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 /**
@@ -29,6 +30,23 @@ public class Validator {
 
     /**
      *
+     * Validate the string is valid or not
+     *
+     * @param input
+     * @return true is the string is not empty and not containing coma(,)
+     */
+    public boolean isValidString(ArrayList<String> input) {
+        boolean isValid = true;
+        for (String i : input) {
+            if (i == null || i.isEmpty() || i.contains(",")) {
+                isValid = false;
+            }
+        }
+        return isValid;
+    }
+
+    /**
+     *
      * Validate the email is valid or not
      *
      * @param email
@@ -43,7 +61,7 @@ public class Validator {
     /**
      *
      * Validate the operator as String used at array
-     * 
+     *
      * @param queryOperator
      * @return
      */

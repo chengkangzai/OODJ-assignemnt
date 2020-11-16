@@ -69,7 +69,6 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
      */
     @Override
     public Order where(String type, String queryString) {
-        System.out.println("Hello");
         int i = 0;
         switch (type.toLowerCase()) {
             case "id":

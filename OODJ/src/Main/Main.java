@@ -23,10 +23,10 @@ public class Main {
     public static void main(String[] args) {
 //        new Login().setVisible(true);
 
-        ArrayList<User> users = new User().all();
-        for (User user : users) {
-            System.out.println(user.getName());
-        }
+//        ArrayList<User> users = new User().all();
+//        for (User user : users) {
+//            System.out.println(user.getName());
+//        }
 
 
         //password
@@ -52,12 +52,14 @@ public class Main {
 //            System.out.println(order.getPrice());
 //        }
 
-//        User u = new User();
-//        u.setEmail("staff@email.com");
-//        u.setName("staff");
-//        u.setPassword("P@$$w0rd");
-//        u.setRole("staff");
-//        System.out.println(u.create());
+        User u = new User().where("id", "1");
+        u.setEmail("staff@email.com");
+        u.setName("staff");
+        u.setPassword("P@$$w0rd");
+        u.setRole(u.DELIVERY_ROLE);
+        System.out.println(u.update());
+        System.out.println(u.login());
+        
 //        admin.setName("Ian6");
 //        System.out.println(admin.create());
 //        Admin admin1 = new Admin("Ian6@email.com","P@$$w0rd");

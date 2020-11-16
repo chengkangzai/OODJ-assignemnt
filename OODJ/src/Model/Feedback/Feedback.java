@@ -40,6 +40,10 @@ public class Feedback implements Creatable, Deletable, Validable, Queryable {
         this.ID = ID;
     }
 
+    public int getID() {
+        return ID;
+    }
+
     public String getFeedback() {
         return feedback;
     }

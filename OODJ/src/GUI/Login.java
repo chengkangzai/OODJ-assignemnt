@@ -6,7 +6,7 @@
 package GUI;
 
 import GUI.Admin.Admin;
-import GUI.Admin.Feedback;
+import GUI.Admin.ManageFeedback;
 import GUI.Admin.ManageDelivery;
 
 import Helper.GUIHelper;
@@ -145,7 +145,7 @@ public class Login extends javax.swing.JFrame {
         boolean proceed = true;
         String email = txtEmail.getText();
         String password = txtPassword.getText();
-        
+
         if (!valid.isValidEmail(email)) {
             help.showWarningBox("Please Enter a valid Email");
             proceed = false;
@@ -154,23 +154,21 @@ public class Login extends javax.swing.JFrame {
             help.showWarningBox("Password Should not be empty or contain \",\" ");
             proceed = false;
         }
-        
+
         if (proceed) {
             User u = new User();
             u.setEmail(email);
             u.setPassword(password);
             if (u.login()) {
                 if (u.isAdmin()) {
-                    help.showMessageBox("You are admin");
                     new Admin().setVisible(true);
                     this.dispose();
-                }else{
-                    help.showMessageBox("You are not admin");
+                } else {
                     //TODO
                     new ManageDelivery().setVisible(true);
                     //Bring to Delivery Panel
                 }
-            }else{
+            } else {
                 help.showMessageBox("Email or Password do not match");
             }
         }
@@ -184,8 +182,8 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-          Feedback   Feedback= new   Feedback();
-           Feedback.setVisible(true);
+        ManageFeedback Feedback = new ManageFeedback();
+        Feedback.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

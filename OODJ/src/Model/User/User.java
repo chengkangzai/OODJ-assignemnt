@@ -6,6 +6,7 @@
 package Model.User;
 
 import Helper.Connection;
+import Model.Session.Session;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -17,11 +18,14 @@ import java.util.List;
  */
 public class User extends Model {
 
-    private static final String DEFAULT_PASSWORD = "P@$$w0rd";
+    private final String DEFAULT_PASSWORD = "password";
+    public final String DELIVERY_ROLE = "delivery";
+    public final String MANAGING_ROLE = "admin";
+
     private int id;
     private String name;
     private String email;
-    // 'admin' / 'staff'
+    // 'admin' / 'delivery'
     private String role;
     private String password;
 
@@ -57,7 +61,7 @@ public class User extends Model {
         this.name = name;
         this.email = email;
         this.role = role;
-        this.password = getHash(password.getBytes());
+        this.password = password;
         this.id = id;
     }
 
@@ -99,6 +103,12 @@ public class User extends Model {
         this.email = email;
     }
 
+    /**
+     *
+     * Only staff / admin
+     *
+     * @return
+     */
     public String getRole() {
         return role;
     }
@@ -140,6 +150,7 @@ public class User extends Model {
                 this.email = split[3];
                 this.role = split[4];
                 this.authenticated = true;
+                new Session().setUser(split[0]);
                 return true;
             }
         }
@@ -324,7 +335,7 @@ public class User extends Model {
     private String format(boolean isCreating) {
         return isCreating
                 ? reader.getNewID() + "," + this.name + "," + getHash(this.password.getBytes()) + "," + this.email + "," + this.role
-                : this.id + "," + this.name + "," + getHash(this.password.getBytes()) + "," + this.email + "," + this.role;
+                : this.id + "," + this.name + "," + this.password + "," + this.email + "," + this.role;
     }
 
     /**
@@ -350,7 +361,12 @@ public class User extends Model {
     }
 
     public boolean resetPassword() {
-        this.setPassword(DEFAULT_PASSWORD);
+        this.setPassword(this.getHash(DEFAULT_PASSWORD.getBytes()));
+        return this.update();
+    }
+    
+    public boolean resetPassword(String password) {
+        this.setPassword(this.getHash(password.getBytes()));
         return this.update();
     }
 

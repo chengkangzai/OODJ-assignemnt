@@ -5,6 +5,8 @@
  */
 package GUI.Admin;
 
+import GUI.User.StaffProfile;
+
 /**
  *
  * @author ashwe

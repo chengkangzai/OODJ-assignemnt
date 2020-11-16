@@ -18,6 +18,7 @@ public class ManagingStaff extends User {
     private int ID;
     private Double Salary;
     private String Position;
+    private User user;
 
     protected final Connection con = new Connection("users/ManagingStaff");
     protected final Validator valid = new Validator();
@@ -31,7 +32,14 @@ public class ManagingStaff extends User {
 
     public ManagingStaff(int ID, String Position, Double Salary, User user) {
         super(user.getId());
+        this.user = user;
         this.ID = ID;
+        this.Salary = Salary;
+        this.Position = Position;
+    }
+
+    public ManagingStaff(String Position, Double Salary, User user) {
+        super(user.getId());
         this.Salary = Salary;
         this.Position = Position;
     }
@@ -50,6 +58,14 @@ public class ManagingStaff extends User {
 
     public void setPosition(String Position) {
         this.Position = Position;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -124,8 +140,8 @@ public class ManagingStaff extends User {
             return null;
         }
         return isCreating
-                ? con.getNewID() + "," + this.getPosition() + "," + this.getSalary() + "," + super.getId()
-                : this.ID + "," + this.getPosition() + "," + this.getSalary() + "," + super.getId();
+                ? con.getNewID() + "," + this.getPosition() + "," + this.getSalary() + "," + this.user.getId()
+                : this.ID + "," + this.getPosition() + "," + this.getSalary() + "," + this.user.getId();
     }
 
     @Override

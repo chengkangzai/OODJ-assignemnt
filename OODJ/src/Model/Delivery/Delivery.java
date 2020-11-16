@@ -366,6 +366,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
     public Boolean deliverBy(DeliveryStaff staff) {
         this.setStatus("delivered");
         this.setSendBy(staff);
+        this.setSendOn(LocalDateTime.now());
         List<String> fromFile = reader.getFromFile();
         fromFile.set(this.ID, this.format(false));
         return reader.reWrite(reader.listToString(fromFile));
