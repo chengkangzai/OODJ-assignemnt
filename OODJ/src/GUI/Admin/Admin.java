@@ -90,10 +90,10 @@ public class Admin extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 51));
         jLabel6.setText("Staff Directory");
 
-        jButton4.setBackground(new java.awt.Color(0, 0, 255));
+        jButton4.setBackground(new java.awt.Color(255, 255, 255));
         jButton4.setFont(new java.awt.Font("MingLiU-ExtB", 3, 18)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 51));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Admin/staffd.png"))); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon("C:\\Users\\ashwe\\OneDrive\\Desktop\\feed.png")); // NOI18N
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -104,10 +104,10 @@ public class Admin extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 51));
         jLabel7.setText("Manage Feedback");
 
-        jButton5.setBackground(new java.awt.Color(0, 0, 255));
+        jButton5.setBackground(new java.awt.Color(255, 255, 255));
         jButton5.setFont(new java.awt.Font("MingLiU-ExtB", 3, 18)); // NOI18N
         jButton5.setForeground(new java.awt.Color(255, 255, 51));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Admin/staffd.png"))); // NOI18N
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Admin/download.png"))); // NOI18N
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -227,10 +227,14 @@ public class Admin extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        new ManageFeedback().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        new Report().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
