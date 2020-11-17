@@ -1,3 +1,3 @@
 git add .
-git commit -s -m "Who care about UI"
+git commit -s -m "DONE"
 git push

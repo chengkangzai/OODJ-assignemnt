@@ -29,7 +29,7 @@ import java.util.List;
 public class Report {
 //https://www.baeldung.com/java-pdf-creation
 
-    String thisPath = new File("").getAbsolutePath()+"\\";
+    String absolutePath = new File("").getAbsolutePath()+"\\";
     PDFHelper help = new PDFHelper();
     Paragraph hr = new Paragraph(" ");
     Font headerFont = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
@@ -39,13 +39,13 @@ public class Report {
     }
 
     public String getThisPath() {
-        return thisPath;
+        return absolutePath;
     }
     
 
     public String generateOrderReport() {
         Document document = new Document();
-        String fileName = "report/Order_" + now + ".pdf";
+        String fileName = "report\\Order_" + now + ".pdf";
         try {
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileName));
             document.open();
@@ -71,7 +71,7 @@ public class Report {
 
     public String generateFeedbackReport() {
         Document document = new Document();
-        String fileName = "report/Feedback_" + now + ".pdf";
+        String fileName = "report\\Feedback_" + now + ".pdf";
         try {
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileName));
             document.open();
@@ -97,7 +97,7 @@ public class Report {
 
     public String generateDeliveryReport() {
         Document document = new Document();
-        String fileName = "report/Delivery_" + now + ".pdf";
+        String fileName = "report\\Delivery_" + now + ".pdf";
         try {
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileName));
             document.open();

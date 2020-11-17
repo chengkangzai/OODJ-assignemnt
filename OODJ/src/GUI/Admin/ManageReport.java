@@ -6,6 +6,8 @@
 package GUI.Admin;
 
 import Model.Report.Report;
+import java.awt.Desktop;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,7 +15,8 @@ import Model.Report.Report;
  */
 public class ManageReport extends javax.swing.JFrame {
 
-//    Report report = new Report();
+    Report report = new Report();
+    Desktop desktop = Desktop.getDesktop();
 
     /**
      * Creates new form Report
@@ -182,7 +185,11 @@ public class ManageReport extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        String o = report.generateDeliveryReport();
+        String file = report.getThisPath() + o;
+        if (!o.equals("Error")) {
+            JOptionPane.showMessageDialog(null, "Your report is ready at " + file);
+        }
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -191,16 +198,17 @@ public class ManageReport extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-//        Report g = new Report();
-//        String o = g.generateOrderReport();
-//        if (!o.equals("Error")) {
-//            JOptionPane.showMessageDialog(null, "Your report is ready at" + g.getThisPath() + o);
-//        }
-
+        String o = report.generateOrderReport();
+        if (!o.equals("Error")) {
+            JOptionPane.showMessageDialog(null, "Your report is ready at " + report.getThisPath() + o);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        String o = report.generateFeedbackReport();
+        if (!o.equals("Error")) {
+            JOptionPane.showMessageDialog(null, "Your report is ready at " + report.getThisPath() + o);
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
