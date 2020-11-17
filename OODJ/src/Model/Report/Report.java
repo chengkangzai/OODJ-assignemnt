@@ -29,15 +29,25 @@ import java.util.List;
 public class Report {
 //https://www.baeldung.com/java-pdf-creation
 
+    String thisPath = new File("").getAbsolutePath()+"\\";
     PDFHelper help = new PDFHelper();
     Paragraph hr = new Paragraph(" ");
     Font headerFont = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
     LocalDate now = LocalDate.now();
 
-    public void getOrderReport() {
+    public Report() {
+    }
+
+    public String getThisPath() {
+        return thisPath;
+    }
+    
+
+    public String generateOrderReport() {
         Document document = new Document();
+        String fileName = "report/Order_" + now + ".pdf";
         try {
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("report/Order_" + now + ".pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileName));
             document.open();
 
             document.add(new Chunk("Order Repoert", headerFont));
@@ -52,16 +62,18 @@ public class Report {
 
             document.close();
             writer.close();
-            System.out.println("Document Written Successfully");
+            return fileName;
         } catch (IOException | DocumentException e) {
             System.out.println(e.getMessage());
+            return "Error";
         }
     }
 
-    public void getFeedbackReport() {
+    public String generateFeedbackReport() {
         Document document = new Document();
+        String fileName = "report/Feedback_" + now + ".pdf";
         try {
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("report/Feedback_" + now + ".pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileName));
             document.open();
 
             document.add(new Chunk("Feedback Repoert", headerFont));
@@ -76,15 +88,18 @@ public class Report {
 
             document.close();
             writer.close();
+            return fileName;
         } catch (IOException | DocumentException e) {
             System.out.println(e.getMessage());
+            return "Error";
         }
     }
 
-    public void getDeliveryReport() {
+    public String generateDeliveryReport() {
         Document document = new Document();
+        String fileName = "report/Delivery_" + now + ".pdf";
         try {
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("report/Delivery_" + now + ".pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileName));
             document.open();
 
             document.add(new Chunk("Delivery Repoert", headerFont));
@@ -99,8 +114,10 @@ public class Report {
 
             document.close();
             writer.close();
+            return fileName;
         } catch (IOException | DocumentException e) {
             System.out.println(e.getMessage());
+            return "Error";
         }
     }
 }
