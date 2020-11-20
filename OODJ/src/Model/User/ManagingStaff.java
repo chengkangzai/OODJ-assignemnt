@@ -154,7 +154,4 @@ public class ManagingStaff extends User {
         return true;
     }
 
-    public static void main(String args[]) {
-
-    }
 }

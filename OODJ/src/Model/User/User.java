@@ -364,27 +364,10 @@ public class User extends Model {
         this.setPassword(this.getHash(DEFAULT_PASSWORD.getBytes()));
         return this.update();
     }
-    
+
     public boolean resetPassword(String password) {
         this.setPassword(this.getHash(password.getBytes()));
         return this.update();
-    }
-
-    public static void main(String args[]) {
-//        User u = new User("pycck@hotmail.com", "P@$$w0rd");
-//        u.setName("cck");
-//        u.setRole("admin");
-//        System.out.println(u.getPassword());
-//        System.out.println(u.getEmail());
-//        System.out.println(u.getName());
-//        u.create();
-
-//        User u = new User("Ian@email.com", "password");
-////        u.setPassword("password");
-////        u.setRole("admin");
-//        System.out.println(u.login());
-//        System.out.println(u.isAdmin());
-//        System.out.println(u.update());
     }
 
 }

@@ -55,8 +55,6 @@ public class Feedback implements Creatable, Deletable, Validable, Queryable {
     public Connection getReader() {
         return reader;
     }
-    
-    
 
     /**
      *
@@ -177,10 +175,4 @@ public class Feedback implements Creatable, Deletable, Validable, Queryable {
         return reader.getNewID() + "," + feedback;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new Feedback().where("id", ">", "1"));
-        System.out.println(new Feedback().where("id", ">=", "1"));
-        System.out.println(new Feedback().where("id", "<", "3"));
-        System.out.println(new Feedback().where("id", "<=", "3"));
-    }
 }

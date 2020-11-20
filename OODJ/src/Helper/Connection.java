@@ -91,7 +91,7 @@ public class Connection {
     /**
      *
      * Get new ID for the model
-     * 
+     *
      * @return
      */
     public int getNewID() {
@@ -103,7 +103,7 @@ public class Connection {
     /**
      *
      * Change comma to pipe
-     * 
+     *
      * @param input
      * @return
      */
@@ -112,7 +112,7 @@ public class Connection {
     }
 
     /**
-     * 
+     *
      * Change pipe to comma (Display purpose)
      *
      * @param input
@@ -120,15 +120,6 @@ public class Connection {
      */
     public String pipe2Comma(String input) {
         return input.replace('|', ',');
-    }
-
-    public static void main(String[] args) {
-//        Connection connection = new Connection("deliveries.txt");
-//        List<String> fromFile = connection.getFromFile();
-//        System.out.println(connection.getNewID());
-//        fromFile.forEach((element) -> {
-//            System.out.println(element);
-//        });
     }
 
 }

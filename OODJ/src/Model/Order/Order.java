@@ -20,7 +20,7 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
     private LocalDateTime createdAt;
     private LocalDateTime payAt;
 
-    private final  Connection reader = new Connection("orders");
+    private final Connection reader = new Connection("orders");
 
     public Order(int ID, Double price, LocalDateTime createdAt, LocalDateTime payAt) {
         this.ID = ID;
@@ -61,11 +61,9 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
         this.payAt = payAt;
     }
 
-    public  Connection getReader() {
+    public Connection getReader() {
         return reader;
     }
-    
-    
 
     /**
      *
@@ -300,16 +298,6 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
         return isCreating
                 ? reader.getNewID() + "," + this.price + "," + this.createdAt + "," + this.payAt
                 : this.getID() + "," + this.price + "," + this.createdAt + "," + this.payAt;
-    }
-
-    public static void main(String[] args) {
-//        Order o = new Order();
-//        o.setPrice(200.00);
-//        o.setPayAt(LocalDateTime.MIN);
-//        System.out.println(o.create());
-
-        ArrayList<Order> o = new Order().where("id", ">", "1");
-        System.out.println(o);
     }
 
 }

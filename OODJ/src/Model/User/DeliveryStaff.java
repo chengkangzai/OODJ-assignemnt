@@ -180,10 +180,4 @@ public class DeliveryStaff extends User {
         return true;
     }
 
-    public static void main(String[] args) {
-        DeliveryStaff staff = new DeliveryStaff().where("user_id", "2");
-        staff.setSalary(2000.00);
-        System.out.println(staff.update());
-
-    }
 }
