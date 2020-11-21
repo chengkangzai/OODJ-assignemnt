@@ -5,7 +5,7 @@
  */
 package Main;
 
-import java.io.File;
+import GUI.Login;
 
 /**
  *
@@ -17,8 +17,8 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        new Login().setVisible(true);
-        System.out.println(new File(".").getAbsolutePath());
+        new Login().setVisible(true);
+
     }
 
 }

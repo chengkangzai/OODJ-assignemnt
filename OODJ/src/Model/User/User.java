@@ -285,8 +285,37 @@ public class User extends Model {
 
         for (int j = 1; j < fromFile.size(); j++) {
             String[] split = fromFile.get(j).split(",");
-            if (split[i].equals(queryString)) {
-                temp.add(new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0])));
+            int queryInFile = Integer.valueOf(split[0]);
+            int query= Integer.valueOf(queryString);
+            
+            switch (queryOperator.toLowerCase()) {
+                    case ">":
+                        if (queryInFile > query) {
+                            temp.add(new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0])));
+                        }
+                        break;
+                    case ">=":
+                        if (queryInFile >= query) {
+                            temp.add(new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0])));
+                        }
+                        break;
+                    case "<":
+                        if (queryInFile < query) {
+                            temp.add(new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0])));
+                        }
+                        break;
+                    case "<=":
+                        if (queryInFile <= query) {
+                            temp.add(new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0])));
+                        }
+                        break;
+                    case "=":
+                    case "==":
+                    case "===":
+                        if (queryInFile == query) {
+                            temp.add(new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0])));
+                        }
+                        break;
             }
         }
 
@@ -295,15 +324,7 @@ public class User extends Model {
 
     @Override
     public ArrayList<User> all() {
-        List<String> fromFile = reader.getFromFile();
-        ArrayList<User> temp = new ArrayList<>();
-
-        for (int j = 1; j < fromFile.size(); j++) {
-            String[] split = fromFile.get(j).split(",");
-            temp.add(new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0])));
-        }
-
-        return temp;
+        return this.where("id", ">=", "1");
     }
 
     /**

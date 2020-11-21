@@ -72,7 +72,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="Feedback" package="Model.Feedback" visibility="public" xPosition="618.0" yPosition="965.0">
+    <Class name="Feedback" package="Model.Feedback" visibility="public" xPosition="125.0" yPosition="1317.0">
       <Fields>
         <Field name="ID" type="int" visibility="private"/>
         <Field name="feedback" type="String" visibility="private"/>
@@ -113,7 +113,7 @@
         <Method name="format" returnType="String" visibility="private"/>
       </Methods>
     </Class>
-    <Class name="Order" package="Model.Order" visibility="public" xPosition="104.0" yPosition="1040.0">
+    <Class name="Order" package="Model.Order" visibility="public" xPosition="136.0" yPosition="753.0">
       <Fields>
         <Field name="ID" type="int" visibility="private"/>
         <Field name="price" type="Double" visibility="private"/>
@@ -162,7 +162,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="Report" package="Model.Report" visibility="public" xPosition="104.0" yPosition="720.0">
+    <Class name="Report" package="Model.Report" visibility="public" xPosition="703.0" yPosition="976.0">
       <Fields>
         <Field name="absolutePath" type="String" visibility="package"/>
         <Field name="help" type="PDFHelper" visibility="package"/>
@@ -310,7 +310,7 @@
         <Method name="isAuthenticated" returnType="boolean" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="Model" package="Model.User" visibility="public" isAbstract="true" xPosition="1488.0" yPosition="-46.0">
+    <Class name="Model" package="Model.User" visibility="public" isAbstract="true" xPosition="1488.0" yPosition="-80.0">
       <Fields/>
       <Constructors/>
       <Methods>
