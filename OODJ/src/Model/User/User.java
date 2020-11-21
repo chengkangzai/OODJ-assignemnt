@@ -378,7 +378,7 @@ public class User extends Model {
      */
     @Override
     public boolean isAdmin() {
-        return "admin".equals(this.role);
+        return this.MANAGING_ROLE.equals(this.role);
     }
 
     public boolean resetPassword() {
