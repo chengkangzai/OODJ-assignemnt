@@ -56,6 +56,12 @@ public class CreateFeedback extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("New Feedback");
 
+        txtFeedback.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFeedbackActionPerformed(evt);
+            }
+        });
+
         jButton2.setBackground(new java.awt.Color(0, 204, 0));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
@@ -163,14 +169,20 @@ public class CreateFeedback extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String feedback = txtFeedback.getText();
-        Feedback f = new Feedback();
-        f.setFeedback(feedback);
 
-        if (f.create()) {
-            JOptionPane.showMessageDialog(null, "Updated!");
+        if (feedback.isBlank() || feedback.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please Fill up the feedback ");
         } else {
-            JOptionPane.showMessageDialog(null, "Error!");
+            Feedback f = new Feedback();
+            f.setFeedback(feedback);
+
+            if (f.create()) {
+                JOptionPane.showMessageDialog(null, "Updated!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Error!");
+            }
         }
+
         new CreateFeedback().setVisible(true);
         this.dispose();
 
@@ -180,6 +192,10 @@ public class CreateFeedback extends javax.swing.JFrame {
         new Login().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void txtFeedbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFeedbackActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFeedbackActionPerformed
 
     /**
      * @param args the command line arguments
