@@ -15,8 +15,3 @@ Interface for abstraction is also implemented to shows extra knowledge
 1. Password encryption for User (Hashing)
 2. Interface standard 
 3. Query model by using where method to ease the query process 
-
-
-## TODO 
-1. Logging Software behaviour
-2. GUI with Swift
