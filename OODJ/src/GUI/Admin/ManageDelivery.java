@@ -37,10 +37,7 @@ public class ManageDelivery extends javax.swing.JFrame {
         ArrayList<Delivery> Deliveries = new Delivery().all();
 
         for (Delivery delivery : Deliveries) {
-            String staffName = "";
-            if (delivery.getSendBy() != null) {
-                staffName = delivery.getSendBy().getName();
-            }
+          
 
             String orderId = (delivery.getOrder() == null) ? "N/A" : String.valueOf(delivery.getOrder().getID());
             String sendOn = (delivery.getSendOn().equals(LocalDateTime.MIN)) ? "N/A" : delivery.getSendOn().toString();
@@ -49,7 +46,6 @@ public class ManageDelivery extends javax.swing.JFrame {
                 delivery.getWeight(),
                 delivery.getAddress(),
                 delivery.getStatus(),
-                staffName,
                 sendOn,
                 orderId
             });
@@ -96,14 +92,14 @@ public class ManageDelivery extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Weight", "Address", "Status", "Delivery Staff", "send On", "Order ID"
+                "ID", "Weight", "Address", "Status", "send On", "Order ID"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true, false, true, true, false
+                false, false, true, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -354,14 +350,14 @@ public class ManageDelivery extends javax.swing.JFrame {
             Double weight = Double.valueOf(model.getValueAt(i, 1).toString());
             String address = String.valueOf(model.getValueAt(i, 2).toString());
             String deliveryStatus = String.valueOf(model.getValueAt(i, 3).toString());
-            DeliveryStaff deliveryStaff = new DeliveryStaff().where("name", model.getValueAt(i, 4).toString());
-            LocalDateTime sendOn = LocalDateTime.parse(model.getValueAt(i, 5).toString());
-            String orderid = model.getValueAt(i, 6).toString();
+            
+            LocalDateTime sendOn = LocalDateTime.parse(model.getValueAt(i, 4).toString());
+            String orderid = model.getValueAt(i, 5).toString();
 
             Order order = (orderid.isEmpty()) ? new Order() : new Order().where("id", orderid);
 
 //Normally i will validate it before i create/update
-            Delivery delivery = new Delivery(ID, weight, address, deliveryStatus, deliveryStaff, sendOn, order);
+            Delivery delivery = new Delivery(ID, weight, address, deliveryStatus, new DeliveryStaff(), sendOn, order);
 
             if (delivery.update() == false) {
                 JOptionPane.showMessageDialog(null, "There is some problem during process" + delivery.getID());
