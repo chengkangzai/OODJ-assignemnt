@@ -15,3 +15,10 @@ Interface for abstraction is also implemented to shows extra knowledge
 1. Password encryption for User (Hashing)
 2. Interface standard 
 3. Query model by using where method to ease the query process 
+
+
+## Appendix
+
+This project will be Archived as the semester is over and it should serve as a record only.
+
+  
