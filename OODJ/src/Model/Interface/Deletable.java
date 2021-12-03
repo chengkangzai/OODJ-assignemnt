@@ -6,15 +6,11 @@
 package Model.Interface;
 
 /**
- *
  * @author ashweeen
  */
 public interface Deletable {
- /**
-     *
+    /**
      * Model should be Deletable
-     * 
-     * @return
      */
     public boolean delete();
 }

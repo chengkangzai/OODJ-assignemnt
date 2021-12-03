@@ -47,8 +47,8 @@ public class PDFHelper {
     public void addRows(PdfPTable table, List<String> heading) {
         for (int i = 1; i < heading.size(); i++) {
             String[] split = heading.get(i).split(",");
-            for (int j = 0; j < split.length; j++) {
-                table.addCell(split[j]);
+            for (String s : split) {
+                table.addCell(s);
             }
         }
     }

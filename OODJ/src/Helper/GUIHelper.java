@@ -37,16 +37,11 @@ public class GUIHelper {
     public void exitSoftware() {
         final JFrame parent = new JFrame();
         final int showConfirmDialog = JOptionPane.showConfirmDialog(parent, "Are you sure you want to exit ?",
-                "Exit Confirmation", 1);
+                "Exit Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
 
         switch (showConfirmDialog) {
-            case 0:
-                System.exit(0);
-                break;
-            case 1:
-            case 2:
-                parent.setVisible(false);
-                break;
+            case 0 -> System.exit(0);
+            case 1, 2 -> parent.setVisible(false);
         }
     }
 }

@@ -13,7 +13,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 /**
- *
  * @author CCK
  */
 public class Connection {
@@ -34,7 +33,6 @@ public class Connection {
     }
 
     /**
-     *
      * Get all the line from the text file
      *
      * @return Raw data from the text file
@@ -50,73 +48,54 @@ public class Connection {
     }
 
     /**
-     *
      * https://rollbar.com/guides/java-throwing-exceptions/
-     *
-     * @param arraylist
-     * @return
      */
     public String listToString(List<String> arraylist) {
-        String line = new String();
+        StringBuilder line = new StringBuilder();
         if (!arraylist.isEmpty()) {
-            for (int i = 0; i < arraylist.size(); i++) {
-                line += arraylist.get(i) + "\n";
+            for (String s : arraylist) {
+                line.append(s).append("\n");
             }
         }
-        return line;
+        return line.toString();
     }
 
     /**
-     *
      * Rewrite the text file, make sure the line is properly formatted
-     *
-     * @param data
-     * @return
      */
     public boolean reWrite(String data) {
-        boolean success = false;
         try {
             Files.write(PATH, data.getBytes(), StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE);
-            success = true;
+            return true;
         } catch (IOException e) {
             System.out.println("The connection between text file cannot be initiate");
+            return false;
         }
-        return success;
     }
 
     private String getLastUsedID() {
-        return getFromFile().get(getFromFile().size() - 1).split("\\,")[0];
+        return getFromFile().get(getFromFile().size() - 1).split(",")[0];
     }
 
     /**
-     *
      * Get new ID for the model
      *
-     * @return
      */
     public int getNewID() {
         return this.getLastUsedID().equals("ID")
                 ? 1
-                : Integer.valueOf(this.getLastUsedID()) + 1;
+                : Integer.parseInt(this.getLastUsedID()) + 1;
     }
 
     /**
-     *
      * Change comma to pipe
-     *
-     * @param input
-     * @return
      */
     public String comma2Pipe(String input) {
         return input.replace(',', '|');
     }
 
     /**
-     *
      * Change pipe to comma (Display purpose)
-     *
-     * @param input
-     * @return
      */
     public String pipe2Comma(String input) {
         return input.replace('|', ',');

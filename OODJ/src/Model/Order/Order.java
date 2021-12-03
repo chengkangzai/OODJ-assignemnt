@@ -5,12 +5,12 @@ import Model.Interface.Updatable;
 import Model.Interface.Queryable;
 import Model.Interface.Validable;
 import Helper.Connection;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author CCK
  */
 public class Order implements Creatable, Updatable, Validable, Queryable {
@@ -65,38 +65,22 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
         return reader;
     }
 
-    /**
-     *
-     * @param type
-     * @param queryString
-     * @return
-     */
     @Override
     public Order where(String type, String queryString) {
         int i = 0;
         switch (type.toLowerCase()) {
-            case "id":
-                i = 0;
-                break;
-            case "price":
-                i = 1;
-                break;
-            case "createdat":
-                i = 2;
-                break;
-            case "payat":
-                i = 3;
-                break;
-            default:
-                System.out.println("Type not specificied");
-                break;
+            case "id" -> i = 0;
+            case "price" -> i = 1;
+            case "createdat" -> i = 2;
+            case "payat" -> i = 3;
+            default -> System.out.println("Type not specified");
         }
         List<String> fromFile = reader.getFromFile();
         for (int j = 1; j < fromFile.size(); j++) {
             String[] split = fromFile.get(j).split(",");
             if (split[i].equals(queryString)) {
                 return new Order(
-                        Integer.valueOf(split[0]),
+                        Integer.parseInt(split[0]),
                         Double.valueOf(split[1]),
                         LocalDateTime.parse(split[2]),
                         LocalDateTime.parse(split[3]));
@@ -105,47 +89,30 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
         return null;
     }
 
-    /**
-     *
-     * @param type
-     * @param queryOperator
-     * @param queryString
-     * @return
-     */
     @Override
     public ArrayList<Order> where(String type, String queryOperator, String queryString) {
         int i = 0;
         switch (type.toLowerCase()) {
-            case "id":
-                i = 0;
-                break;
-            case "price":
-                i = 1;
-                break;
-            case "createdat":
-                i = 2;
-                break;
-            case "payat":
-                i = 3;
-                break;
-            default:
-                System.out.println("Type not specificied");
-                break;
+            case "id" -> i = 0;
+            case "price" -> i = 1;
+            case "createdat" -> i = 2;
+            case "payat" -> i = 3;
+            default -> System.out.println("Type not specificied");
         }
 
-        ArrayList<Order> temp = new ArrayList();
+        ArrayList<Order> temp = new ArrayList<Order>();
         List<String> fromFile = reader.getFromFile();
 
         if ((i == 0) || (i == 1)) {
-            int query = Integer.valueOf(queryString);
+            int query = Integer.parseInt(queryString);
             for (int j = 1; j < fromFile.size(); j++) {
                 String[] split = fromFile.get(j).split(",");
-                Double queryInFile = Double.valueOf(split[i]);
+                double queryInFile = Double.parseDouble(split[i]);
                 switch (queryOperator.toLowerCase()) {
                     case ">":
                         if (queryInFile > query) {
                             temp.add(new Order(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]),
                                     LocalDateTime.parse(split[2]),
                                     LocalDateTime.parse(split[3])
@@ -155,7 +122,7 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
                     case ">=":
                         if (queryInFile >= query) {
                             temp.add(new Order(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]),
                                     LocalDateTime.parse(split[2]),
                                     LocalDateTime.parse(split[3])
@@ -165,7 +132,7 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
                     case "<":
                         if (queryInFile < query) {
                             temp.add(new Order(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]),
                                     LocalDateTime.parse(split[2]),
                                     LocalDateTime.parse(split[3])
@@ -175,7 +142,7 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
                     case "<=":
                         if (queryInFile <= query) {
                             temp.add(new Order(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]),
                                     LocalDateTime.parse(split[2]),
                                     LocalDateTime.parse(split[3])
@@ -187,7 +154,7 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
                     case "===":
                         if (queryInFile == query) {
                             temp.add(new Order(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]),
                                     LocalDateTime.parse(split[2]),
                                     LocalDateTime.parse(split[3])
@@ -206,7 +173,7 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
                     case ">":
                         if (fileTime.isAfter(queryTime)) {
                             temp.add(new Order(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]),
                                     LocalDateTime.parse(split[2]),
                                     LocalDateTime.parse(split[3])
@@ -217,7 +184,7 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
                     case ">=":
                         if (fileTime.isAfter(queryTime) || fileTime.isEqual(queryTime)) {
                             temp.add(new Order(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]),
                                     LocalDateTime.parse(split[2]),
                                     LocalDateTime.parse(split[3])
@@ -227,7 +194,7 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
                     case "<":
                         if (fileTime.isBefore(queryTime)) {
                             temp.add(new Order(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]),
                                     LocalDateTime.parse(split[2]),
                                     LocalDateTime.parse(split[3])
@@ -237,7 +204,7 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
                     case "<=":
                         if (fileTime.isBefore(queryTime) || fileTime.isEqual(queryTime)) {
                             temp.add(new Order(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]),
                                     LocalDateTime.parse(split[2]),
                                     LocalDateTime.parse(split[3])
@@ -249,7 +216,7 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
                     case "===":
                         if (fileTime.isEqual(queryTime)) {
                             temp.add(new Order(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]),
                                     LocalDateTime.parse(split[2]),
                                     LocalDateTime.parse(split[3])
@@ -268,10 +235,7 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
     }
 
     /**
-     *
      * Create one Order
-     *
-     * @return
      */
     @Override
     public boolean create() {
@@ -282,10 +246,7 @@ public class Order implements Creatable, Updatable, Validable, Queryable {
     }
 
     /**
-     *
      * Update Order
-     *
-     * @return
      */
     @Override
     public boolean update() {

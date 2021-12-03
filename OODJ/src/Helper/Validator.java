@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 /**
- *
  * @author CCK
  */
 public class Validator {
@@ -18,10 +17,8 @@ public class Validator {
     }
 
     /**
-     *
      * Validate the string is valid or not
      *
-     * @param input
      * @return true is the string is not empty and not containing coma(,)
      */
     public boolean isValidString(String input) {
@@ -29,27 +26,22 @@ public class Validator {
     }
 
     /**
-     *
      * Validate the string is valid or not
      *
-     * @param input
      * @return true is the string is not empty and not containing coma(,)
      */
     public boolean isValidString(ArrayList<String> input) {
-        boolean isValid = true;
         for (String i : input) {
             if (i == null || i.isEmpty() || i.contains(",")) {
-                isValid = false;
+                return false;
             }
         }
-        return isValid;
+        return true;
     }
 
     /**
-     *
      * Validate the email is valid or not
      *
-     * @param email
      * @return true if the input string is not empty and is a email
      */
     public boolean isValidEmail(String email) {
@@ -59,11 +51,8 @@ public class Validator {
     }
 
     /**
-     *
      * Validate the operator as String used at array
      *
-     * @param queryOperator
-     * @return
      */
     public boolean isValidOperator(String queryOperator) {
         return queryOperator.contains(">") || queryOperator.contains("<") || queryOperator.contains(">=") || queryOperator.contains("<=") || queryOperator.contains("=") || queryOperator.contains("==") || queryOperator.contains("===");

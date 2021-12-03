@@ -12,10 +12,7 @@ package Model.Interface;
 public interface Updatable {
 
     /**
-     *
      * The model can be updatable
-     * 
-     * @return
      */
     public boolean update();
 }

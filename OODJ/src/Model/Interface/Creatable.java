@@ -12,10 +12,7 @@ package Model.Interface;
 public interface Creatable {
 
     /**
-     *
      * Model should be Creatable
-     * 
-     * @return
      */
     public boolean create();
 }

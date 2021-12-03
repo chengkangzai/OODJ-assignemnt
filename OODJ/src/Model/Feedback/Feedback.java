@@ -56,10 +56,6 @@ public class Feedback implements Creatable, Deletable, Validable, Queryable {
         return reader;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public boolean create() {
         List<String> fromFile = reader.getFromFile();
@@ -68,10 +64,7 @@ public class Feedback implements Creatable, Deletable, Validable, Queryable {
     }
 
     /**
-     *
      * Delete initiated Feedback
-     *
-     * @return
      */
     @Override
     public boolean delete() {
@@ -81,45 +74,29 @@ public class Feedback implements Creatable, Deletable, Validable, Queryable {
     }
 
     /**
-     *
      * Get Feedback by using where statement
-     *
-     * @param type
-     * @param queryString
-     * @return
      */
     @Override
     public Feedback where(String type, String queryString) {
         int i = 0;
         switch (type.toLowerCase()) {
-            case "id":
-                i = 0;
-                break;
-            case "feedback":
-                i = 1;
-                break;
-            default:
-                System.out.println("Type not specificied");
-                break;
+            case "id" -> i = 0;
+            case "feedback" -> i = 1;
+            default -> System.out.println("Type not specificied");
         }
 
         List<String> fromFile = reader.getFromFile();
         for (String element : fromFile) {
             String[] split = element.split(",");
             if (split[i].equals(queryString)) {
-                return new Feedback(Integer.valueOf(split[0]), split[1]);
+                return new Feedback(Integer.parseInt(split[0]), split[1]);
             }
         }
         return null;
     }
 
     /**
-     *
      * Get Feedback by using where statement
-     *
-     * @param type
-     * @param queryString
-     * @return
      */
     @Override
     public ArrayList<Feedback> where(String type, String queryOperator, String queryString) {
@@ -131,31 +108,31 @@ public class Feedback implements Creatable, Deletable, Validable, Queryable {
         }
 
         ArrayList<Feedback> temp = new ArrayList<>();
-        int queryID = Integer.valueOf(queryString);
+        int queryID = Integer.parseInt(queryString);
         List<String> fromFile = reader.getFromFile();
 
         for (int i = 1; i < fromFile.size(); i++) {
             String[] split = fromFile.get(i).split(",");
-            int idFile = Integer.valueOf(split[0]);
+            int idFile = Integer.parseInt(split[0]);
             switch (queryOperator) {
                 case ">":
                     if (idFile > queryID) {
-                        temp.add(new Feedback(Integer.valueOf(split[0]), split[1]));
+                        temp.add(new Feedback(Integer.parseInt(split[0]), split[1]));
                     }
                     break;
                 case ">=":
                     if (idFile >= queryID) {
-                        temp.add(new Feedback(Integer.valueOf(split[0]), split[1]));
+                        temp.add(new Feedback(Integer.parseInt(split[0]), split[1]));
                     }
                     break;
                 case "<":
                     if (idFile < queryID) {
-                        temp.add(new Feedback(Integer.valueOf(split[0]), split[1]));
+                        temp.add(new Feedback(Integer.parseInt(split[0]), split[1]));
                     }
                     break;
                 case "<=":
                     if (idFile <= queryID) {
-                        temp.add(new Feedback(Integer.valueOf(split[0]), split[1]));
+                        temp.add(new Feedback(Integer.parseInt(split[0]), split[1]));
                     }
                     break;
             }

@@ -104,43 +104,25 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
 
     /**
      * Get certain Delivery by using where statement like laravel
-     *
-     * @param type
-     * @param queryString
-     * @return
      */
     @Override
     public Delivery where(String type, String queryString) {
         int i = 0;
         switch (type.toLowerCase()) {
-            case "id":
-                i = 0;
-                break;
-            case "weight":
-                i = 1;
-                break;
-            case "address":
-                i = 2;
-                break;
-            case "status":
-                i = 3;
-                break;
-            case "sendBy":
-                i = 4;
-                break;
-            case "sendOn":
-                i = 5;
-                break;
-            default:
-                System.out.println("Type not specificied");
-                break;
+            case "id" -> i = 0;
+            case "weight" -> i = 1;
+            case "address" -> i = 2;
+            case "status" -> i = 3;
+            case "sendby" -> i = 4;
+            case "sendon" -> i = 5;
+            default -> System.out.println("Type not specified");
         }
         List<String> fromFile = reader.getFromFile();
         for (String element : fromFile) {
             String[] split = element.split(",");
             if (split[i].equals(queryString)) {
                 return new Delivery(
-                        Integer.valueOf(split[0]),
+                        Integer.parseInt(split[0]),
                         Double.valueOf(split[1]), split[2], split[3],
                         new DeliveryStaff().where("user_id", split[4]),
                         LocalDateTime.parse(split[5]),
@@ -156,11 +138,6 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
      *
      * Get array of Delivery with where statement
      * https://howtodoinjava.com/java/date-time/compare-localdatetime/
-     *
-     * @param type
-     * @param queryOperator
-     * @param queryString
-     * @return
      */
     @Override
     public ArrayList<Delivery> where(String type, String queryOperator, String queryString) {
@@ -168,24 +145,12 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
         //< , >, >=, <= 
         int i = 0;
         switch (type.toLowerCase()) {
-            case "id":
-                i = 0;
-                break;
-            case "weight":
-                i = 1;
-                break;
-            case "sendby":
-                i = 4;
-                break;
-            case "sendon":
-                i = 5;
-                break;
-            case "order_id":
-                i = 6;
-                break;
-            default:
-                System.out.println("Type not specificied or supported\n Support Type : id,weight,sendon");
-                break;
+            case "id" -> i = 0;
+            case "weight" -> i = 1;
+            case "sendby" -> i = 4;
+            case "sendon" -> i = 5;
+            case "order_id" -> i = 6;
+            default -> System.out.println("Type not specified or supported\n Support Type : id,weight,sendon");
         }
 
         if (!valid.isValidOperator(queryOperator)) {
@@ -193,7 +158,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
             return null;
         }
 
-        ArrayList<Delivery> temp = new ArrayList();
+        ArrayList<Delivery> temp = new ArrayList<Delivery>();
         List<String> fromFile = reader.getFromFile();
 
         if (i == 0 || i == 1) {
@@ -206,7 +171,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
                     case ">":
                         if (fileQuery > query) {
                             temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
                                     LocalDateTime.parse(split[5]),
@@ -216,7 +181,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
                     case ">=":
                         if (fileQuery >= query) {
                             temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
                                     LocalDateTime.parse(split[5]),
@@ -226,7 +191,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
                     case "<":
                         if (fileQuery < query) {
                             temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
                                     LocalDateTime.parse(split[5]),
@@ -236,7 +201,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
                     case "<=":
                         if (fileQuery <= query) {
                             temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
                                     LocalDateTime.parse(split[5]),
@@ -248,7 +213,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
                     case "===":
                         if (fileQuery.equals(query) && statusInFile.equals("pending")) {
                             temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
                                     LocalDateTime.parse(split[5]),
@@ -264,12 +229,11 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
             for (int j = 1; j < fromFile.size(); j++) {
                 String[] split = fromFile.get(j).split(",");
                 LocalDateTime fileTime = LocalDateTime.parse(split[5]);
-                String statusInFile = split[3];
                 switch (queryOperator.toLowerCase()) {
                     case ">":
                         if (fileTime.isAfter(queryTime)) {
                             temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
                                     LocalDateTime.parse(split[5]),
@@ -279,7 +243,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
                     case ">=":
                         if (fileTime.isAfter(queryTime) || fileTime.isEqual(queryTime)) {
                             temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
                                     LocalDateTime.parse(split[5]),
@@ -289,7 +253,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
                     case "<":
                         if (fileTime.isBefore(queryTime)) {
                             temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
                                     LocalDateTime.parse(split[5]),
@@ -299,7 +263,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
                     case "<=":
                         if (fileTime.isBefore(queryTime) || fileTime.isEqual(queryTime)) {
                             temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
                                     LocalDateTime.parse(split[5]),
@@ -311,7 +275,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
                     case "===":
                         if (fileTime.isEqual(queryTime)) {
                             temp.add(new Delivery(
-                                    Integer.valueOf(split[0]),
+                                    Integer.parseInt(split[0]),
                                     Double.valueOf(split[1]), split[2], split[3],
                                     new DeliveryStaff().where("user_id", split[4]),
                                     LocalDateTime.parse(split[5]),
@@ -331,8 +295,6 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
 
     /**
      * Create Delivery
-     *
-     * @return
      */
     @Override
     public boolean create() {
@@ -363,9 +325,6 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
     /**
      *
      * Mark the delivery is delivered by a delivery Staff
-     *
-     * @param staff
-     * @return
      */
     public Boolean deliverBy(DeliveryStaff staff) {
         this.setStatus("delivered");
@@ -377,11 +336,7 @@ public class Delivery implements Creatable, Updatable, Queryable, Validable {
     }
 
     /**
-     *
      * Change the address format when only it is setting it to text file
-     *
-     * @param isCreating
-     * @return
      */
     private String format(Boolean isCreating) {
         if (!valid.isValidString(this.status)) {

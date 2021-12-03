@@ -50,19 +50,11 @@ public class Report {
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileName));
             document.open();
 
-            document.add(new Chunk("Order Repoert", headerFont));
+            document.add(new Chunk("Order Report", headerFont));
             document.add(hr);
 
             List<String> fromFile = new Order().getReader().getFromFile();
-            PdfPTable table = new PdfPTable(fromFile.get(0).split(",").length);
-
-            help.addTableHeader(table, fromFile);
-            help.addRows(table, fromFile);
-            document.add(table);
-
-            document.close();
-            writer.close();
-            return fileName;
+            return createPdfTable(document, fileName, writer, fromFile);
         } catch (IOException | DocumentException e) {
             System.out.println(e.getMessage());
             return "Error";
@@ -76,19 +68,11 @@ public class Report {
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileName));
             document.open();
 
-            document.add(new Chunk("Feedback Repoert", headerFont));
+            document.add(new Chunk("Feedback Report", headerFont));
             document.add(hr);
 
             List<String> fromFile = new Feedback().getReader().getFromFile();
-            PdfPTable table = new PdfPTable(fromFile.get(0).split(",").length);
-
-            help.addTableHeader(table, fromFile);
-            help.addRows(table, fromFile);
-            document.add(table);
-
-            document.close();
-            writer.close();
-            return fileName;
+            return createPdfTable(document, fileName, writer, fromFile);
         } catch (IOException | DocumentException e) {
             System.out.println(e.getMessage());
             return "Error";
@@ -102,22 +86,26 @@ public class Report {
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileName));
             document.open();
 
-            document.add(new Chunk("Delivery Repoert", headerFont));
+            document.add(new Chunk("Delivery Report", headerFont));
             document.add(hr);
 
             List<String> fromFile = new Delivery().getReader().getFromFile();
-            PdfPTable table = new PdfPTable(fromFile.get(0).split(",").length);
-
-            help.addTableHeader(table, fromFile);
-            help.addRows(table, fromFile);
-            document.add(table);
-
-            document.close();
-            writer.close();
-            return fileName;
+            return createPdfTable(document, fileName, writer, fromFile);
         } catch (IOException | DocumentException e) {
             System.out.println(e.getMessage());
             return "Error";
         }
+    }
+
+    private String createPdfTable(Document document, String fileName, PdfWriter writer, List<String> fromFile) throws DocumentException {
+        PdfPTable table = new PdfPTable(fromFile.get(0).split(",").length);
+
+        help.addTableHeader(table, fromFile);
+        help.addRows(table, fromFile);
+        document.add(table);
+
+        document.close();
+        writer.close();
+        return fileName;
     }
 }

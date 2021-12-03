@@ -84,31 +84,19 @@ public class DeliveryStaff extends User {
     public DeliveryStaff where(String type, String queryString) {
         int i = 0;
         switch (type.toLowerCase()) {
-            case "id":
-                i = 0;
-                break;
-            case "phonenumber":
-                i = 1;
-                break;
-            case "carplate":
-                i = 2;
-                break;
-            case "salary":
-                i = 3;
-                break;
-            case "user_id":
-                i = 4;
-                break;
-            default:
-                System.out.println("Type not specificied");
-                break;
+            case "id" -> i = 0;
+            case "phonenumber" -> i = 1;
+            case "carplate" -> i = 2;
+            case "salary" -> i = 3;
+            case "user_id" -> i = 4;
+            default -> System.out.println("Type not specified");
         }
 
         List<String> fromFile = con.getFromFile();
         for (int j = 1; j < fromFile.size(); j++) {
             String[] split = fromFile.get(j).split(",");
             if (split[i].equals(String.valueOf(queryString))) {
-                return new DeliveryStaff(Integer.valueOf(split[0]), split[1], split[2], Double.valueOf(split[3]),
+                return new DeliveryStaff(Integer.parseInt(split[0]), split[1], split[2], Double.valueOf(split[3]),
                         new User().where("id", split[4])
                 );
             }
@@ -119,15 +107,7 @@ public class DeliveryStaff extends User {
 
     @Override
     public boolean create() {
-        if (!valid.isValidString(carPlate)) {
-            return false;
-        }
-        if (!valid.isValidString(this.phoneNumber)) {
-            return false;
-        }
-        if (this.salary <= 0) {
-            return false;
-        }
+        if (validate(carPlate, this.phoneNumber, this.salary)) return false;
         List<String> fromFile = con.getFromFile();
 
         fromFile.add(this.format(true));
@@ -135,17 +115,22 @@ public class DeliveryStaff extends User {
 
     }
 
+    private boolean validate(String carPlate, String phoneNumber, Double salary) {
+        if (!valid.isValidString(carPlate)) {
+            return true;
+        }
+        if (!valid.isValidString(phoneNumber)) {
+            return true;
+        }
+        if (salary <= 0) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public boolean update() {
-        if (!valid.isValidString(carPlate)) {
-            return false;
-        }
-        if (!valid.isValidString(this.phoneNumber)) {
-            return false;
-        }
-        if (this.salary <= 0) {
-            return false;
-        }
+        if (validate(carPlate, this.phoneNumber, this.salary)) return false;
 
         List<String> fromFile = con.getFromFile();
         fromFile.set(getIndex(), this.format(false));

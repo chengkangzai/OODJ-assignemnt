@@ -18,7 +18,6 @@ import java.util.List;
  */
 public class User extends Model {
 
-    private final String DEFAULT_PASSWORD = "password";
     public final String DELIVERY_ROLE = "delivery";
     public final String MANAGING_ROLE = "admin";
 
@@ -39,9 +38,6 @@ public class User extends Model {
 
     /**
      * Mainly use for Login
-     *
-     * @param email
-     * @param password
      */
     public User(String email, String password) {
         this.email = email;
@@ -50,12 +46,6 @@ public class User extends Model {
 
     /**
      * Mainly use within the class and general
-     *
-     * @param name
-     * @param email
-     * @param role
-     * @param password
-     * @param id
      */
     public User(String name, String email, String role, String password, int id) {
         this.name = name;
@@ -68,9 +58,9 @@ public class User extends Model {
     public User(int id) {
         List<String> fromFile = reader.getFromFile();
         for (int i = 1; i < fromFile.size(); i++) {
-            String split[] = fromFile.get(i).split(",");
-            if (Integer.valueOf(split[0]) == id) {
-                this.id = Integer.valueOf(split[0]);
+            String[] split = fromFile.get(i).split(",");
+            if (Integer.parseInt(split[0]) == id) {
+                this.id = Integer.parseInt(split[0]);
                 this.name = split[1];
                 this.password = split[2];
                 this.email = split[3];
@@ -104,10 +94,7 @@ public class User extends Model {
     }
 
     /**
-     *
      * Only staff / admin
-     *
-     * @return
      */
     public String getRole() {
         return role;
@@ -125,10 +112,6 @@ public class User extends Model {
         this.password = password;
     }
 
-    /**
-     *
-     * @return
-     */
     public boolean login() {
         if (!(valid.isValidEmail(email))) {
             System.out.println("Ivalid Email");
@@ -142,10 +125,10 @@ public class User extends Model {
         List<String> dbLine = reader.getFromFile();
         String hashedPassword = getHash(this.password.getBytes());
 
-        for (int i = 0; i < dbLine.size(); i++) {
-            String split[] = dbLine.get(i).split(",");
+        for (String s : dbLine) {
+            String[] split = s.split(",");
             if (split[3].equals(email) && split[2].equals(hashedPassword)) {
-                this.id = Integer.valueOf(split[0]);
+                this.id = Integer.parseInt(split[0]);
                 this.name = split[1];
                 this.email = split[3];
                 this.role = split[4];
@@ -158,29 +141,15 @@ public class User extends Model {
     }
 
     /**
-     *
      * Register the user by object
-     *
-     * @return
      */
     @Override
     public boolean create() {
-        if (!(valid.isValidEmail(email))) {
-            System.out.println("Ivalid Email");
-            return false;
-        }
-        if (!(valid.isValidString(password))) {
-            System.out.println("Ivalid Password");
-            return false;
-        }
-        if (!(valid.isValidString(name))) {
-            System.out.println("Ivalid Password");
-            return false;
-        }
+        if (validate(email, password, name)) return false;
 
         List<String> dbLine = reader.getFromFile();
         for (int i = 1; i < dbLine.size(); i++) {
-            String split[] = dbLine.get(i).split(",");
+            String[] split = dbLine.get(i).split(",");
             if (split[3].equals(email)) {
                 //Email exits in database, hence cannot register this guy
                 System.out.println("Email exist !");
@@ -192,26 +161,28 @@ public class User extends Model {
         return reader.reWrite(reader.listToString(dbLine));
     }
 
+    private boolean validate(String email, String password, String name) {
+        if (!(valid.isValidEmail(email))) {
+            System.out.println("Invalid Email");
+            return true;
+        }
+        if (!(valid.isValidString(password))) {
+            System.out.println("Invalid Password");
+            return true;
+        }
+        if (!(valid.isValidString(name))) {
+            System.out.println("Invalid Password");
+            return true;
+        }
+        return false;
+    }
+
     /**
-     *
      * Update the user
-     *
-     * @return
      */
     @Override
     public boolean update() {
-        if (!(valid.isValidEmail(email))) {
-            System.out.println("Ivalid Email");
-            return false;
-        }
-        if (!(valid.isValidString(name))) {
-            System.out.println("Ivalid Password");
-            return false;
-        }
-        if (!(valid.isValidString(password))) {
-            System.out.println("Ivalid Password");
-            return false;
-        }
+        if (validate(email, name, password)) return false;
 
         List<String> dbLine = reader.getFromFile();
         dbLine.set(this.id, this.format(false));
@@ -222,36 +193,24 @@ public class User extends Model {
      *
      * Find user as similar using where in sql inspired by Laravel
      *
-     * @param type
-     * @param queryString
      * @return User
      */
     @Override
     public User where(String type, String queryString) {
         int i = 0;
         switch (type.toLowerCase()) {
-            case "id":
-                i = 0;
-                break;
-            case "name":
-                i = 1;
-                break;
-            case "email":
-                i = 3;
-                break;
-            case "role":
-                i = 4;
-                break;
-            default:
-                System.out.println("Type not specificied");
-                break;
+            case "id" -> i = 0;
+            case "name" -> i = 1;
+            case "email" -> i = 3;
+            case "role" -> i = 4;
+            default -> System.out.println("Type not specificied");
         }
         List<String> fromFile = reader.getFromFile();
 
         for (int j = 1; j < fromFile.size(); j++) {
             String[] split = fromFile.get(j).split(",");
             if (split[i].equals(queryString)) {
-                return new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0]));
+                return new User(split[1], split[3], split[4], split[2], Integer.parseInt(split[0]));
             }
         }
         System.out.println("Hoi Error la ! shame on you copying Laravel");
@@ -262,58 +221,44 @@ public class User extends Model {
      *
      * you should not use this method... but for the sake of Abstraction ...
      * yeah
-     *
-     * @param type
-     * @param queryOperator
-     * @param queryString
-     * @return
      */
     @Override
     public ArrayList<User> where(String type, String queryOperator, String queryString) {
-        int i = 0;
-        switch (type.toLowerCase()) {
-            case "id":
-                i = 0;
-                break;
-            default:
-                System.out.println("Type not specificied or supported");
-                break;
-        }
 
         List<String> fromFile = reader.getFromFile();
         ArrayList<User> temp = new ArrayList<>();
 
         for (int j = 1; j < fromFile.size(); j++) {
             String[] split = fromFile.get(j).split(",");
-            int queryInFile = Integer.valueOf(split[0]);
-            int query= Integer.valueOf(queryString);
+            int queryInFile = Integer.parseInt(split[0]);
+            int query= Integer.parseInt(queryString);
             
             switch (queryOperator.toLowerCase()) {
                     case ">":
                         if (queryInFile > query) {
-                            temp.add(new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0])));
+                            temp.add(new User(split[1], split[3], split[4], split[2], Integer.parseInt(split[0])));
                         }
                         break;
                     case ">=":
                         if (queryInFile >= query) {
-                            temp.add(new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0])));
+                            temp.add(new User(split[1], split[3], split[4], split[2], Integer.parseInt(split[0])));
                         }
                         break;
                     case "<":
                         if (queryInFile < query) {
-                            temp.add(new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0])));
+                            temp.add(new User(split[1], split[3], split[4], split[2], Integer.parseInt(split[0])));
                         }
                         break;
                     case "<=":
                         if (queryInFile <= query) {
-                            temp.add(new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0])));
+                            temp.add(new User(split[1], split[3], split[4], split[2], Integer.parseInt(split[0])));
                         }
                         break;
                     case "=":
                     case "==":
                     case "===":
                         if (queryInFile == query) {
-                            temp.add(new User(split[1], split[3], split[4], split[2], Integer.valueOf(split[0])));
+                            temp.add(new User(split[1], split[3], split[4], split[2], Integer.parseInt(split[0])));
                         }
                         break;
             }
@@ -330,9 +275,6 @@ public class User extends Model {
     /**
      * Get the hashed value of the input Bytes
      * https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
-     *
-     * @param inputBytes
-     * @return
      */
     @Override
     public String getHash(byte[] inputBytes) {
@@ -341,8 +283,8 @@ public class User extends Model {
             md.update(inputBytes);
             byte[] bytes = md.digest();
             StringBuilder passwordInString = new StringBuilder();
-            for (int i = 0; i < bytes.length; i++) {
-                passwordInString.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            for (byte aByte : bytes) {
+                passwordInString.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
             }
             //Get complete hashed password in hex format
             return passwordInString.toString();
@@ -382,13 +324,14 @@ public class User extends Model {
     }
 
     public boolean resetPassword() {
+        String DEFAULT_PASSWORD = "password";
         this.setPassword(this.getHash(DEFAULT_PASSWORD.getBytes()));
         return this.update();
     }
 
-    public boolean resetPassword(String password) {
+    public void resetPassword(String password) {
         this.setPassword(this.getHash(password.getBytes()));
-        return this.update();
+        this.update();
     }
 
 }

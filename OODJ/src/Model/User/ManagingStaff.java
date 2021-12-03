@@ -73,28 +73,18 @@ public class ManagingStaff extends User {
 
         int i = 0;
         switch (type.toLowerCase()) {
-            case "id":
-                i = 0;
-                break;
-            case "position":
-                i = 1;
-                break;
-            case "salary":
-                i = 2;
-                break;
-            case "user_id":
-                i = 3;
-                break;
-            default:
-                System.out.println("Type not specificied");
-                break;
+            case "id" -> i = 0;
+            case "position" -> i = 1;
+            case "salary" -> i = 2;
+            case "user_id" -> i = 3;
+            default -> System.out.println("Type not specificied");
         }
 
         List<String> fromFile = con.getFromFile();
         for (int j = 1; j < fromFile.size(); j++) {
             String[] split = fromFile.get(j).split(",");
             if (split[i].equals(String.valueOf(queryString))) {
-                return new ManagingStaff(Integer.valueOf(split[0]), split[1], Double.valueOf(split[2]),
+                return new ManagingStaff(Integer.parseInt(split[0]), split[1], Double.valueOf(split[2]),
                         new User().where("id", split[3])
                 );
             }
